@@ -1,3 +1,6 @@
 # proyecto-arq-sw
 # Integrantes: 
-#  	- Mateo
+### 	- Mateo Negri
+### 	- Manuela Simes
+### 	- Valentino Gaggio
+### 	- Paz Vartanian
