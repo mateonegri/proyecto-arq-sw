@@ -1,7 +1,7 @@
-**# Arquitectura de Software I - Integrador 2023**
+# **Arquitectura de Software I - Integrador 2023**
 Este proyecto consiste en la creación de un sitio de reserva de habitaciones para una cadena de hoteles. Está compuesto por un backend desarrollado en Golang, que proporcionará las interfaces necesarias, y un frontend desarrollado en React, que representa la interfaz de usuario y consume los servicios del backend.
 
-# Integrantes: 
+## Integrantes: 
 ### 	- Mateo Negri
 ### 	- Manuela Simes
 ### 	- Valentino Gaggio
