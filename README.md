@@ -1,4 +1,4 @@
-# proyecto-arq-sw
+# Proyecto Arquitectura de SoftWare 
 # Integrantes: 
 ### 	- Mateo Negri
 ### 	- Manuela Simes
