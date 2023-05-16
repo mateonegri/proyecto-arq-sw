@@ -2,10 +2,10 @@
 Este proyecto consiste en la creación de un sitio de reserva de habitaciones para una cadena de hoteles. Está compuesto por un backend desarrollado en Golang, que proporcionará las interfaces necesarias, y un frontend desarrollado en React, que representa la interfaz de usuario y consume los servicios del backend.
 
 ## Integrantes: 
-### 	- Mateo Negri
-### 	- Manuela Simes
-### 	- Valentino Gaggio
-### 	- Paz Vartanian
+#### 	- Mateo Negri
+#### 	- Manuela Simes
+#### 	- Valentino Gaggio
+#### 	- Paz Vartanian
 
 ### **Características**
 **Autenticación de usuarios:** El sistema cuenta con un sistema de inicio de sesión y gestión de permisos de usuarios. Existen dos tipos de usuarios: viajante y administrador. Los administradores tienen la capacidad de agregar nuevos hoteles, incluyendo título, foto, descripción y habitaciones, así como ver el listado de reservas realizadas por los viajantes.
