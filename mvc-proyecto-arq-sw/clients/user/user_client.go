@@ -9,6 +9,16 @@ import (
 
 var Db *gorm.DB
 
+func GetUserByUsername(username string) (model.User, error) {
+	var user model.User
+	result := Db.Where("username = ?", username).First(&user)
+	if result.Error != nil {
+		return user, result.Error
+	}
+
+	return user, nil
+}
+
 func GetUserById(id int) model.User {
 	var user model.User
 

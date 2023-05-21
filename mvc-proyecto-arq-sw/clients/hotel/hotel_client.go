@@ -37,3 +37,11 @@ func InsertHotel(hotel model.Hotel) model.Hotel {
 	log.Debug("Hotel Created: ", hotel.Id)
 	return hotel
 }
+
+/*
+func UpdateAvailableRooms() model.Hotel { //Preguntar esto!
+	result := Db.UpdateColumn()
+}
+*/
+
+
