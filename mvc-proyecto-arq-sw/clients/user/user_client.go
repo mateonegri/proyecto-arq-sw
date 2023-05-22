@@ -11,7 +11,7 @@ var Db *gorm.DB
 
 func GetUserByUsername(username string) (model.User, error) {
 	var user model.User
-	result := Db.Where("username = ?", username).First(&user)
+	result := Db.Where("user_name = ?", username).First(&user)
 	if result.Error != nil {
 		return user, result.Error
 	}

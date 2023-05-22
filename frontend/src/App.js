@@ -5,6 +5,7 @@ import Navbar from './componentes/Navbar';
 import {Home} from './paginas/Home';
 import {Login} from "./paginas/Login";
 import {navigation} from "./Rutas/Navegacion";
+
 function App() {
     return (
         <div className="App">
@@ -13,7 +14,7 @@ function App() {
             <Routes>
                 <Route path='' element={<Home />}/>
                 <Route path='/home' element={<Home />}/>
-                <Route path='/login' element={<Login/>}/>
+                <Route path='/login' element={<Login />}/>
         </Routes>
             </BrowserRouter>
         </div>
