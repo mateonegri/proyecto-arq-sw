@@ -1,27 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import Navbar from './componentes/Navbar';
 import {Home} from './paginas/Home';
 import {Login} from "./paginas/Login";
+import {navigation} from "./Rutas/Navegacion";
 function App() {
-
-        let component
-        switch (window.location.pathname) {
-            case '/':
-            component = <Home />
-            break
-            case '/home':
-            component = <Home />
-            break
-            case '/login':
-            component = <Login />
-                break
-    }
     return (
         <div className="App">
         <Navbar />
-            {component}
+            <BrowserRouter>
+            <Routes>
+           <Route path='/home' element={<Home />}/>
+                <Route path='/login' element={<Login/>}/>
+        </Routes>
+            </BrowserRouter>
         </div>
   );
 
