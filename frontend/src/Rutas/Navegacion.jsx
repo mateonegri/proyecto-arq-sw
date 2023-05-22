@@ -1,12 +1,12 @@
 import { lazy } from "react";
-
-const Home = lazy(() => import('../paginas/Home'));
+import {Home} from '../paginas/Home'
+const Home1 = lazy(() => import('../paginas/Home'));
 const Login = lazy(() => import('../paginas/Login'))
 export const navigation = [
     {
         id: 1,
-        path: "/home",
-        Element: Home,
+        path: "/",
+        Element: Home1,
     },
     {
         id: 2,
@@ -15,4 +15,6 @@ export const navigation = [
     }
 
 ];
+
+export {Home};
 
