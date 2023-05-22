@@ -42,6 +42,7 @@ h1 {
     align-items: stretch;
     gap: 2rem;
     padding: 0 1rem;
+    margin: 0;
 }
 .Titulo-de-la-web {
     font-size: 1.8rem;
@@ -71,4 +72,6 @@ h1 {
     background-color: aliceblue;
     color: darkgray;
 }
-
+.foto-logo {
+    height: 100px;
+}

@@ -3,7 +3,7 @@ export function Login() {
     return (
         <div className='Login'>
              <div className='contenedor-principal'>
-                 <h1>¡Hola! Registrate</h1>
+                 <p>¡Hola! Registrate</p>
                  <Login />
              </div>
         </div>
