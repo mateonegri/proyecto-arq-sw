@@ -35,15 +35,24 @@ h1 {
 }
 
 .nav {
-   background-color: darkgray;
+    background-color: darkgray;
     color: white;
     display: flex;
     justify-content: space-between;
     align-items: stretch;
+<<<<<<< HEAD
     gap: 2rem;
     padding: 0 1rem;
     margin: 0;
+=======
+     overflow: hidden;
+    background-color: #666666;
+    position: fixed;
+    top: 0;
+    width: 100%; 
+>>>>>>> 2067c45f64935e3d1db8ef3d7b1c3f4031d5bc19
 }
+
 .Titulo-de-la-web {
     font-size: 1.8rem;
 }
@@ -72,6 +81,41 @@ h1 {
     background-color: aliceblue;
     color: darkgray;
 }
+<<<<<<< HEAD
 .foto-logo {
     height: 100px;
 }
+=======
+
+input[type="text"],
+input[type="password"] {
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+input[type="submit"] {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  background: #01d28e;
+  border: 1px solid #01d28e;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+input[type="submit"]:hover {
+  background: #6cf0c2;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.login-form {
+  background-color: white;
+  padding: 2rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+>>>>>>> 2067c45f64935e3d1db8ef3d7b1c3f4031d5bc19

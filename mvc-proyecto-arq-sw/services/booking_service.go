@@ -38,7 +38,7 @@ func (s *bookingService) GetBookingById(id int) (dto.BookingDetailDto, e.ApiErro
 	bookingDto.EndMonth = booking.EndMonth
 	bookingDto.EndYear = booking.EndYear
 	bookingDto.UserId = booking.UserId
-	bookingDto.Username = booking.User.UserName
+	bookingDto.Username = booking.User.Name
 	bookingDto.HotelId = booking.HotelId
 	bookingDto.HotelName = booking.Hotel.HotelName
 	bookingDto.Address = booking.Hotel.Address
@@ -61,7 +61,7 @@ func (s *bookingService) GetBookings() (dto.BookingsDetailDto, e.ApiError) {
 		bookingDto.EndMonth = booking.EndMonth
 		bookingDto.EndYear = booking.EndYear
 		bookingDto.UserId = booking.UserId
-		bookingDto.Username = booking.User.UserName
+		bookingDto.Username = booking.User.Name
 		bookingDto.HotelId = booking.HotelId
 		bookingDto.HotelName = booking.Hotel.HotelName
 		bookingDto.Address = booking.Hotel.Address

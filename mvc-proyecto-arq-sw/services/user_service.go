@@ -98,7 +98,7 @@ func (s *userService) Login(loginDto dto.LoginDto) (dto.LoginResponseDto, e.ApiE
 	if err != nil {
 		return loginResponseDto, e.NewBadRequestApiError("Usuario no encontrado")
 	}
-	if user.Password != loginDto.Password && loginDto.Username != "encrypted" {
+	if user.Password != loginDto.Password && loginDto.Username == user.UserName {
 		return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta")
 	}
 
@@ -108,7 +108,7 @@ func (s *userService) Login(loginDto dto.LoginDto) (dto.LoginResponseDto, e.ApiE
 	})
 	var jwtKey = []byte("secret_key")
 	tokenString, _ := token.SignedString(jwtKey)
-	if user.Password != tokenString && loginDto.Username == "encrypted" {
+	if user.Password != tokenString && loginDto.Username != user.UserName {
 		return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta")
 	}
 
