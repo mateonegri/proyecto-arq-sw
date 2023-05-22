@@ -6,7 +6,7 @@ type Hotel struct {
 	HotelDescription string `gorm:"type:varchar(600)"`
 	Rooms            int    `gorm:"not null;default:5"`
 	AvailableRooms   int
-	Address          string `gorm:"not null;type:varchar(500);unique"`
+	Address          string `gorm:"not null;type:varchar(500)"`
 	ImageURL         string `gorm:"type:varchar(600)"`
 }
 

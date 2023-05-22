@@ -14,8 +14,8 @@ type hotelServiceInterface interface {
 	GetHotels() (dto.HotelsDto, e.ApiError)
 	InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiError)
 	GetHotelById(id int) (dto.HotelDto, e.ApiError)
-	// GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError)
-	// UpdateAvailableRooms --> Faltaria esta funcion, aca y en el client.
+	GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError)
+	//UpdateAvailableRooms --> Faltaria esta funcion, aca y en el client.
 }
 
 var (
@@ -70,15 +70,30 @@ func (s *hotelService) InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiEr
 
 	var hotel model.Hotel
 
-	hotelDto.HotelName = hotel.HotelName
-	hotelDto.HotelDescription = hotel.HotelDescription
-	hotelDto.Address = hotel.Address
-	hotelDto.Rooms = hotel.Rooms
-	hotelDto.AvailableRooms = hotel.AvailableRooms
+	hotel.Id = hotelDto.Id
+	hotel.HotelName = hotelDto.HotelName
+	hotel.HotelDescription = hotelDto.HotelDescription
+	hotel.Address = hotelDto.Address
+	hotel.Rooms = hotelDto.Rooms
+	hotel.AvailableRooms = hotelDto.AvailableRooms
+	hotel.ImageURL = hotelDto.ImageURL
 
 	hotel = hotelClient.InsertHotel(hotel)
 
 	hotelDto.Id = hotel.Id
+
+	return hotelDto, nil
+}
+
+func (s *hotelService) GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError) {
+	var hotel model.Hotel = hotelClient.GetHotelById(id)
+	var hotelDto dto.HotelDto
+
+	if hotel.Id == 0 {
+		return hotelDto, e.NewBadRequestApiError("Hotel no encontrado")
+	}
+
+	hotelDto.AvailableRooms = hotel.AvailableRooms
 
 	return hotelDto, nil
 }

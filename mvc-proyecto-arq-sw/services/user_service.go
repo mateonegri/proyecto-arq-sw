@@ -60,7 +60,7 @@ func (s *userService) GetUsers() (dto.UsersDto, e.ApiError) {
 		if !userDto.Type {
 			userDto.Name = user.Name
 			userDto.LastName = user.LastName
-			userDto.UserName = user.Name
+			userDto.UserName = user.UserName
 			userDto.Email = user.Email
 			userDto.Id = user.Id
 			userDto.Type = user.Type
@@ -79,7 +79,8 @@ func (s *userService) InsertUser(userDto dto.UserDto) (dto.UserDto, e.ApiError) 
 	user.Name = userDto.Name
 	user.LastName = userDto.LastName
 	user.UserName = userDto.UserName
-	user.Password = userDto.Password
+	user.Password = userDto.Password //Ver como hasheo la pass
+	user.Email = userDto.Email
 
 	user = userClient.InsertUser(user)
 

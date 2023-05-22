@@ -36,7 +36,7 @@ func GetHotels(c *gin.Context) {
 	c.JSON(http.StatusOK, hotelsDto)
 }
 
-func HotelInsert(c *gin.Context) {
+func InsertHotel(c *gin.Context) {
 	var hotelDto dto.HotelDto
 	err := c.BindJSON(&hotelDto)
 
@@ -57,4 +57,17 @@ func HotelInsert(c *gin.Context) {
 	c.JSON(http.StatusCreated, hotelDto)
 }
 
-//func UpdateAvailableRooms() ....
+/* func UpdateHotel(c *gin.Context)  { //Ver si hace falta otro Dto para hacer el update
+	var hotelDto dto.HotelDto          //Ya sea de los available rooms, de imagenes, descripciones, etc.
+
+	err := c.BindJSON(&hotelDto)
+
+	// Error Parsing json param
+	if err != nil {
+		log.Error(err.Error())
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
+
+} */

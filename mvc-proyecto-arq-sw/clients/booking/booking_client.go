@@ -42,3 +42,5 @@ func InsertBooking(booking model.Booking) model.Booking {
 	log.Debug("Booking Created: ", booking.Id)
 	return booking
 }
+
+//GetBookingByUserId () ;;
