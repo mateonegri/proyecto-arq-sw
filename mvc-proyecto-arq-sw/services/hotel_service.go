@@ -16,6 +16,9 @@ type hotelServiceInterface interface {
 	GetHotelById(id int) (dto.HotelDto, e.ApiError)
 	GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError)
 	//UpdateAvailableRooms --> Faltaria esta funcion, aca y en el client.
+	//Le paso el dia y en base a eso me consulta la availability
+	//CheckAvailabiltyRange()
+
 }
 
 var (

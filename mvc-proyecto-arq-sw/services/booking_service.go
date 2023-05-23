@@ -1,7 +1,9 @@
 package services
 
 import (
+	log "github.com/sirupsen/logrus"
 	bookingClient "mvc-proyecto-arq-sw/clients/booking"
+	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	"mvc-proyecto-arq-sw/dto"
 	"mvc-proyecto-arq-sw/model"
 	e "mvc-proyecto-arq-sw/utils/errors"
@@ -13,6 +15,7 @@ type bookingServiceInterface interface {
 	GetBookingById(id int) (dto.BookingDetailDto, e.ApiError)
 	GetBookings() (dto.BookingsDetailDto, e.ApiError)
 	InsertBooking(bookingDto dto.BookingDto) (dto.BookingDto, e.ApiError)
+	GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (dto.Availability, e.ApiError)
 }
 
 var (
@@ -31,12 +34,13 @@ func (s *bookingService) GetBookingById(id int) (dto.BookingDetailDto, e.ApiErro
 		return bookingDto, e.NewBadRequestApiError("Booking not found")
 	}
 
-	bookingDto.StartDay = booking.StartDay
-	bookingDto.StartMonth = booking.StartMonth
-	bookingDto.StartYear = booking.StartYear
-	bookingDto.EndDay = booking.EndDay
-	bookingDto.EndMonth = booking.EndMonth
-	bookingDto.EndYear = booking.EndYear
+	/*	bookingDto.StartDay = booking.StartDay
+		bookingDto.StartMonth = booking.StartMonth
+		bookingDto.StartYear = booking.StartYear
+		bookingDto.EndDay = booking.EndDay
+	*/
+	bookingDto.StartDate = booking.StartDate
+	bookingDto.EndDate = booking.EndDate
 	bookingDto.UserId = booking.UserId
 	bookingDto.Username = booking.User.Name
 	bookingDto.HotelId = booking.HotelId
@@ -66,13 +70,16 @@ func (s *bookingService) GetBookings() (dto.BookingsDetailDto, e.ApiError) {
 func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDto, e.ApiError) {
 
 	var booking model.Booking
+	/*
+		booking.StartDay = bookingDto.StartDay
+		booking.StartMonth = bookingDto.StartMonth
+		booking.StartYear = bookingDto.StartYear
+		booking.EndDay = bookingDto.EndDay
+		booking.EndMonth = bookingDto.EndMonth
+		booking.EndYear = bookingDto.EndYear*/
 
-	booking.StartDay = bookingDto.StartDay
-	booking.StartMonth = bookingDto.StartMonth
-	booking.StartYear = bookingDto.StartYear
-	booking.EndDay = bookingDto.EndDay
-	booking.EndMonth = bookingDto.EndMonth
-	booking.EndYear = bookingDto.EndYear
+	booking.StartDate = bookingDto.StartDate
+	booking.EndDate = bookingDto.EndDate
 	booking.UserId = bookingDto.UserId
 	booking.HotelId = bookingDto.HotelId
 
@@ -81,4 +88,34 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 	bookingDto.Id = booking.Id
 
 	return bookingDto, nil
+}
+
+func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (dto.Availability, e.ApiError) {
+	var ocuppiedRoomsDay int = 0
+
+	startDate := request.StartDate
+	endDate := request.EndDate
+	idHotel := request.HotelId
+
+	var hotel model.Hotel = hotelClient.GetHotelById(idHotel)
+	var responseDto dto.Availability
+
+	for i := startDate; i < endDate; i = i + 1 {
+		ocuppiedRoomsDay = bookingClient.GetBookingsByHotelIdAndUser(idHotel, i, endDate)
+		log.Debug("Rooms: ", ocuppiedRoomsDay)
+		log.Debug("Date: ", i)
+
+		if ocuppiedRoomsDay == hotel.Rooms {
+
+			responseDto.OkToBook = false
+
+			return responseDto, nil
+		}
+
+	}
+
+	responseDto.OkToBook = true
+
+	return responseDto, nil
+
 }

@@ -71,3 +71,35 @@ func InsertHotel(c *gin.Context) {
 
 
 } */
+
+func CheckAvailability(c *gin.Context) {
+	var checkRoomDto dto.CheckRoomDto
+	er := c.BindJSON(&checkRoomDto)
+
+	if er != nil {
+		log.Error(er.Error())
+		c.JSON(http.StatusBadRequest, er.Error())
+		return
+	}
+	log.Debug(checkRoomDto)
+
+	var availabilityResponseDto dto.Availability
+	availabilityResponseDto, err := service.BookingService.GetBookingByHotelIdAndDate(checkRoomDto)
+	if err != nil {
+		if err.Status() == 400 {
+			c.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+		c.JSON(http.StatusForbidden, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, availabilityResponseDto)
+
+	//Validar fechas primero. O sino validar en el front
+	// Llega el Hotel Id, LLega fechas
+	// Busco los Bookings por HotelId y por fecha
+	// Y comparo la cantidad de bookings que tengo en esa fecha
+	// con la cantidad de habitaciones totales del hotel
+	// si en alguna fecha no cumple, no tengo disponibilidad
+}

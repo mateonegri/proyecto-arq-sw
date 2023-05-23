@@ -43,4 +43,13 @@ func InsertBooking(booking model.Booking) model.Booking {
 	return booking
 }
 
-//GetBookingByUserId () ;;
+func GetBookingsByHotelIdAndUser(id_hotel int, startDate int, endDate int) int {
+	var availableRooms int
+
+	var booking model.Booking
+	Db.Model(&booking).Where("hotel_id = ? AND start_date >= ? AND end_date >= ?", id_hotel, startDate, endDate).Count(&availableRooms)
+	//Db.Find(&bookings).Where("hotel_id = ? AND start_date < ? AND end_date > ?", id_hotel, startDate, startDate)
+	log.Debug("Count:", availableRooms)
+
+	return availableRooms
+}
