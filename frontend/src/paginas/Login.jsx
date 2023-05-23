@@ -30,14 +30,6 @@ function goto(path){
 }
 
 export function Login() {
-
-    return (
-        <div className='Login'>
-             <div className='contenedor-principal'>
-                 <p>¡Hola! Registrate</p>
-                 <Login />
-             </div>
-
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -75,7 +67,6 @@ export function Login() {
         <div className="input-container">
           <label>Usuario </label>
           <input type="text" name="uname" placeholder="Usuario" required />
->>>>>>> 2067c45f64935e3d1db8ef3d7b1c3f4031d5bc19
         </div>
         <div className="input-container">
           <label>Contraseña</label>
@@ -109,6 +100,5 @@ export function Login() {
     </div>
   );
 }
-
 
 
