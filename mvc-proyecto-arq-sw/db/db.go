@@ -19,9 +19,9 @@ var (
 
 func init() {
 	// DB Connections Paramters
-	DBName := "test_booking"
+	DBName := "tuhotel"
 	DBUser := "root"
-	DBPass := ""
+	DBPass := "Manuela10Simes"
 	//DBPass := os.Getenv("MVC_DB_PASS")
 	DBHost := "localhost"
 	// ------------------------

@@ -7,11 +7,6 @@ import {Home} from './paginas/Home';
 import {Login} from './paginas/Login';
 import {navigation} from './Rutas/Navegacion';
 
-
-
-
-
-
 function App() {
 
     return (

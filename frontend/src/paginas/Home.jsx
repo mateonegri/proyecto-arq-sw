@@ -1,30 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {Hotel} from "../componentes/Hotel";
 import Navbar from "../componentes/Navbar";
-import HotelCard from '../componentes/HotelCard';
-
-const API_URL = 'http://localhost:8090/hotels'
-
+import Hotels from "../componentes/Hotels";
 export const Home = () => {
-    const [hotel, setHotel] = useState([]);
 
-    const getHotel = async () => {
-        const response = await fetch(hotel);
-        const resolve = await response.json();
-        setHotel(resolve)
-    }
-    useEffect(() => {
-        getHotel();
-    },[])
+
 
     return (
         <div className='Home'>
             <Navbar />
             <div className='contenedor-principal'>
-                <h1>Tus vacaciones comienzan aqui...</h1>
-                {
-                    hotel.length ? hotel.map((hotel) => <HotelCard HotelName={hotel.HotelName} HotelDescription={hotel.HotelDescription} />): null
-                }
+                <Hotels />
+
             </div>
 
 

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-
+import '../hojas-de-estilo/Hotel.css'
 
 const HotelCard = ({ HotelName, HotelDescription }) => {
     const navigate = useNavigate();
