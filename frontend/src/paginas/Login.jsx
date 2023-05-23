@@ -30,14 +30,14 @@ function goto(path){
 }
 
 export function Login() {
-<<<<<<< HEAD
+
     return (
         <div className='Login'>
              <div className='contenedor-principal'>
                  <p>¡Hola! Registrate</p>
                  <Login />
              </div>
-=======
+
   // React States
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
