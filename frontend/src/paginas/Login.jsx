@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Cookies from "universal-cookie";
+import Navbar from "../componentes/Navbar.jsx";
 
 const Cookie = new Cookies();
 
@@ -89,8 +90,9 @@ export function Login() {
   }
 
   return (
-
-      <div className="app">
+    <>
+    <Navbar />      
+    <div className="app">
         <div className="login-form">
           <div className="title">BIENVENIDOS</div>
 
@@ -99,6 +101,7 @@ export function Login() {
 
         <button onClick={logout}>Log Out</button>
       </div>
+    </>
   );
 }
 
