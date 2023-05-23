@@ -53,18 +53,9 @@ func (s *bookingService) GetBookings() (dto.BookingsDetailDto, e.ApiError) {
 
 	for _, booking := range bookings {
 		var bookingDto dto.BookingDetailDto
+		id := booking.Id
 
-		bookingDto.StartDay = booking.StartDay
-		bookingDto.StartMonth = booking.StartMonth
-		bookingDto.StartYear = booking.StartYear
-		bookingDto.EndDay = booking.EndDay
-		bookingDto.EndMonth = booking.EndMonth
-		bookingDto.EndYear = booking.EndYear
-		bookingDto.UserId = booking.UserId
-		bookingDto.Username = booking.User.Name
-		bookingDto.HotelId = booking.HotelId
-		bookingDto.HotelName = booking.Hotel.HotelName
-		bookingDto.Address = booking.Hotel.Address
+		bookingDto, _ = s.GetBookingById(id)
 
 		bookingsDto = append(bookingsDto, bookingDto)
 	}
