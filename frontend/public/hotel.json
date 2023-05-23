@@ -1,0 +1,18 @@
+[{
+  "id": 123,
+  "hotel_name": "Melia",
+  "hotel_description": "Muy bonito",
+  "hotel_rooms": 10,
+  "available_rooms": 10,
+  "hotel_address": "ewfuqe 21",
+  "hotel_image_url":  "https://l1nk.dev/1ZGZL"
+},
+{
+  "id": 123,
+  "hotel_name": "Melia",
+  "hotel_description": "Muy bonito",
+  "hotel_rooms": 10,
+  "available_rooms": 10,
+  "hotel_address": "ewfuqe 21",
+  "hotel_image_url":  "https://l1nk.dev/1ZGZL"
+}]
