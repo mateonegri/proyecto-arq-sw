@@ -1,8 +1,10 @@
 package services
 
 import (
+	"fmt"
 	"github.com/golang-jwt/jwt"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/crypto/bcrypt"
 	userClient "mvc-proyecto-arq-sw/clients/user"
 
 	"mvc-proyecto-arq-sw/dto"
@@ -79,7 +81,14 @@ func (s *userService) InsertUser(userDto dto.UserDto) (dto.UserDto, e.ApiError) 
 	user.Name = userDto.Name
 	user.LastName = userDto.LastName
 	user.UserName = userDto.UserName
-	user.Password = userDto.Password //Ver como hasheo la pass
+
+	var hashedPassword, err = s.HashPassword(userDto.Password)
+
+	if err != nil {
+		return userDto, e.NewBadRequestApiError("No se puede utilizar esa contraseña")
+	}
+
+	user.Password = hashedPassword //Ver como hasheo la pass
 	user.Email = userDto.Email
 
 	user = userClient.InsertUser(user)
@@ -95,11 +104,17 @@ func (s *userService) Login(loginDto dto.LoginDto) (dto.LoginResponseDto, e.ApiE
 	user, err := userClient.GetUserByUsername(loginDto.Username)
 	var loginResponseDto dto.LoginResponseDto
 	loginResponseDto.UserId = -1
+
 	if err != nil {
 		return loginResponseDto, e.NewBadRequestApiError("Usuario no encontrado")
 	}
-	if user.Password != loginDto.Password && loginDto.Username == user.UserName {
-		return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta")
+
+	var comparison error = s.VerifyPassword(user.Password, loginDto.Password)
+
+	if loginDto.Username == user.UserName {
+		if comparison != nil {
+			return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta 2")
+		}
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -108,12 +123,31 @@ func (s *userService) Login(loginDto dto.LoginDto) (dto.LoginResponseDto, e.ApiE
 	})
 	var jwtKey = []byte("secret_key")
 	tokenString, _ := token.SignedString(jwtKey)
-	if user.Password != tokenString && loginDto.Username != user.UserName {
-		return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta")
+
+	var verifyToken error = s.VerifyPassword(user.Password, tokenString)
+
+	if loginDto.Username != user.UserName {
+		if verifyToken != nil {
+			return loginResponseDto, e.NewUnauthorizedApiError("Contraseña incorrecta 3")
+		}
 	}
 
 	loginResponseDto.UserId = user.Id
 	loginResponseDto.Token = tokenString
 	log.Debug(loginResponseDto)
 	return loginResponseDto, nil
+}
+
+func (s *userService) HashPassword(password string) (string, error) {
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
+	if err != nil {
+		return "", fmt.Errorf("No se pudo hashear la password %w", err)
+	}
+
+	return string(hashedPassword), nil
+}
+
+func (s *userService) VerifyPassword(hashedPassword string, candidatePassword string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(candidatePassword))
 }

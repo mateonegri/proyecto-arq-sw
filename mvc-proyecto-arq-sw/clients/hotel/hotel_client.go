@@ -18,6 +18,21 @@ func GetHotelById(id int) model.Hotel {
 	return hotel
 }
 
+func CheckHotelById(id int) bool {
+	var hotel model.Hotel
+	var exist bool
+
+	result := Db.Where("id = ?", id).First(&hotel)
+
+	if result.Error != nil {
+		exist = false
+		return exist
+	}
+
+	exist = true
+	return exist
+}
+
 func GetHotels() model.Hotels {
 	var hotels model.Hotels
 	Db.Find(&hotels)
@@ -43,5 +58,3 @@ func UpdateAvailableRooms() model.Hotel { //Preguntar esto!
 	result := Db.UpdateColumn()
 }
 */
-
-

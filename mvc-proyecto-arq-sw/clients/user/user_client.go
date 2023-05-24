@@ -28,6 +28,23 @@ func GetUserById(id int) model.User {
 	return user
 }
 
+//Checkear si existe un usuario en el sistema
+
+func CheckUserById(id int) bool {
+	var user model.User
+	var exist bool
+
+	result := Db.Where("id = ?", id).First(&user)
+
+	if result.Error != nil {
+		exist = false
+		return exist
+	}
+
+	exist = true
+	return exist
+}
+
 func GetUsers() model.Users {
 	var users model.Users
 	Db.Find(&users)

@@ -4,6 +4,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	bookingClient "mvc-proyecto-arq-sw/clients/booking"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
+	userClient "mvc-proyecto-arq-sw/clients/user"
 	"mvc-proyecto-arq-sw/dto"
 	"mvc-proyecto-arq-sw/model"
 	e "mvc-proyecto-arq-sw/utils/errors"
@@ -42,7 +43,7 @@ func (s *bookingService) GetBookingById(id int) (dto.BookingDetailDto, e.ApiErro
 	bookingDto.StartDate = booking.StartDate
 	bookingDto.EndDate = booking.EndDate
 	bookingDto.UserId = booking.UserId
-	bookingDto.Username = booking.User.Name
+	bookingDto.Username = booking.User.UserName
 	bookingDto.HotelId = booking.HotelId
 	bookingDto.HotelName = booking.Hotel.HotelName
 	bookingDto.Address = booking.Hotel.Address
@@ -78,6 +79,29 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 		booking.EndMonth = bookingDto.EndMonth
 		booking.EndYear = bookingDto.EndYear*/
 
+	if userClient.CheckUserById(bookingDto.UserId) == false {
+		return bookingDto, e.NewBadRequestApiError("El usuario no esta registrado en el sistema")
+	}
+
+	if hotelClient.CheckHotelById(bookingDto.HotelId) == false {
+		return bookingDto, e.NewBadRequestApiError("El hotel no esta registrado en el sistema")
+	}
+
+	// En caso de que se quiera hardcodear un booking hay que checkear disponibilidad
+	var checkAvailabilityDto dto.CheckRoomDto
+
+	checkAvailabilityDto.StartDate = bookingDto.StartDate
+	checkAvailabilityDto.EndDate = bookingDto.EndDate
+	checkAvailabilityDto.HotelId = bookingDto.HotelId
+
+	var responseAvailabilityDto dto.Availability
+
+	responseAvailabilityDto, _ = s.GetBookingByHotelIdAndDate(checkAvailabilityDto)
+
+	if responseAvailabilityDto.OkToBook == false {
+		return bookingDto, e.NewBadRequestApiError("El hotel no tiene disponibilidad en esas fechas")
+	}
+
 	booking.StartDate = bookingDto.StartDate
 	booking.EndDate = bookingDto.EndDate
 	booking.UserId = bookingDto.UserId
@@ -88,6 +112,7 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 	bookingDto.Id = booking.Id
 
 	return bookingDto, nil
+
 }
 
 func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (dto.Availability, e.ApiError) {
@@ -100,12 +125,16 @@ func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (d
 	var hotel model.Hotel = hotelClient.GetHotelById(idHotel)
 	var responseDto dto.Availability
 
+	if hotel.Id == 0 {
+		return responseDto, e.NewBadRequestApiError("El hotel no se encuentra en el sistema")
+	}
+
 	for i := startDate; i < endDate; i = i + 1 {
-		ocuppiedRoomsDay = bookingClient.GetBookingsByHotelIdAndUser(idHotel, i, endDate)
+		ocuppiedRoomsDay = bookingClient.GetBookingsByHotelIdAndUser(idHotel, i)
 		log.Debug("Rooms: ", ocuppiedRoomsDay)
 		log.Debug("Date: ", i)
 
-		if ocuppiedRoomsDay == hotel.Rooms {
+		if ocuppiedRoomsDay >= hotel.Rooms {
 
 			responseDto.OkToBook = false
 
