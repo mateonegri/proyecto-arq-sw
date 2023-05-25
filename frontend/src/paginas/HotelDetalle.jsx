@@ -7,14 +7,15 @@ export const HotelDetalle = () => {
     const [hotel, setHotel] = useState()
     const {id} = useParams()
 
-    const infoHotel = `http://localhost:3000/hotel.json/:${id}`
+    const infoHotel = `http://localhost:3000/hotel.json/${id}`
 
     const getHotel = async () => {
-        const response = await fetch (infoHotel)
-        const hotel = await response.json()
+        const response = await fetch(infoHotel);
+        const hotel = await response.json();
+        console.log(hotel)
         return hotel;
     }
-    console.log(hotel)
+
     useEffect(() => {
         getHotel().then((hotel) => setHotel(hotel));
     }, [])
@@ -22,19 +23,14 @@ export const HotelDetalle = () => {
         <div className='contenedor-principal'>
             <Navbar />
             <h1>Detalle del hotel </h1>
-            <div className='hotelesDetalle'>
+            <div className='hoteles-detalle'>
 
-                <div className='cadaDetalle'>
+                <div className='cada-detalle'>
                     <p>{hotel?.hotel_name}</p>
                     <p>{hotel?.hotel_description}</p>
                     <p>{hotel?.hotel_address}</p>
-
                     <p>Apurate que a este hotel solo le quedan {hotel?.hotel_available_rooms} habitaciones disponibles </p>
-
                 </div>
-
-
-
             </div>
         </div>
     )

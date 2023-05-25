@@ -16,7 +16,7 @@ export const navigation = [
     },
     {
         id: 3,
-        path: '/home/hotel/:id',
+        path: "/home/hotel/:id",
         Element: HotelDetalle,
     }
 

@@ -1,11 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import {useEffect} from "react";
 import { BrowserRouter, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
-import Navbar from './componentes/Navbar';
 import {Home} from './paginas/Home';
 import {Login} from './paginas/Login';
 import {navigation} from './Rutas/Navegacion';
+import {HotelDetalle} from "./paginas/HotelDetalle";
 
 function App() {
 
@@ -16,11 +14,8 @@ function App() {
                 <Route path='' element={<Home />}/>
                 <Route path='/home' element={<Home />}/>
                 <Route path='/login' element={<Login />}/>
-
+                <Route path='/home/hotel/:id' element={<HotelDetalle />}/>
             </Routes>
-
-
-
             </BrowserRouter>
         </div>
   );

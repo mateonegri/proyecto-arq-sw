@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import HotelCard from "./HotelCard";
 
 const hotels = "http://localhost:3000/hotel.json"
 
 const Hotel = () => {
 
 const [hotel, setHotel] = useState([]);
-    const navigate = useNavigate();
+
 const getHotel = async () => {
     const response = await fetch(hotels);
     const hotel = await response.json();
@@ -18,37 +19,13 @@ useEffect(() => {
     getHotel().then ((hotel) => setHotel(hotel));
 },[])
 
-const id = hotel.id;
-const selectHotel = () => {
-    navigate(`/home/hotel/${hotel.id}`);
-}
 
 return (
     <div className='contenedor-principal'>
             <h1>Tus vacaciones estan esperandote...</h1>
             {
-                hotel.length ? hotel.map((hotel) =>
-                    <div className='contenedor-hotel'>
-                        <section onClick={selectHotel}>
-                        <div className='contenedor-informacion-hotel'>
-                            <div className='nombre-hotel'>
-                            <h1>{hotel.hotel_name}</h1>
-                            </div>
-                            <div className='ubicacion-hotel'>
-                                <p>{hotel.hotel_address}</p>
-                            </div>
-                        <div className='descripcion-hotel'>
-                            <p>{hotel.hotel_description}</p>
-                        </div>
-                            {/*<div className='imagen-hotel'>*/}
-                            {/*    <img src={require(hotel.hotel_image_url)}/>*/}
-                            {/*</div>*/}
-
-                        </div>
-                        </section>
-                    </div>):null
+                hotel.length ? hotel.map((hotel) => <HotelCard key={hotel.id} hotel_name={hotel.hotel_name} hotel_address={hotel.hotel_address} hotel_description={hotel.hotel_description} hotel_id={hotel.id} hotel_image={hotel.hotel_image_url}/>): null
             }
-
     </div>
 )
 }

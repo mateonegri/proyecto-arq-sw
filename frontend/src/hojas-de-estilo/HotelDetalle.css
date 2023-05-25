@@ -1,0 +1,11 @@
+.hoteles-detalle {
+    width: 1000px;
+    height: 1000px;
+    margin: 10px 10px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue;
+
+}
+
