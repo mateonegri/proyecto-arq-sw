@@ -1,12 +1,14 @@
 package dto
 
-type HotelDto struct {
+type UpdateHotelDto struct {
 	Id               int    `json:"id"`
 	HotelName        string `json:"hotel_name"`
 	HotelDescription string `json:"hotel_description"`
 	Rooms            int    `json:"hotel_rooms"`
 	Address          string `json:"hotel_address"`
 	ImageURL         string `json:"hotel_image_url"`
+
+	UserId int `json:"user_id"`
 }
 
-type HotelsDto []HotelDto
+type UpdateHotelsDto []UpdateHotelDto

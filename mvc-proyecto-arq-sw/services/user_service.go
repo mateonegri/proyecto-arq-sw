@@ -78,6 +78,10 @@ func (s *userService) InsertUser(userDto dto.UserDto) (dto.UserDto, e.ApiError) 
 
 	var user model.User
 
+	if !userClient.GetUserByEmail(userDto.Email) {
+		return userDto, e.NewBadRequestApiError("El email ya esta registrado")
+	}
+
 	user.Name = userDto.Name
 	user.LastName = userDto.LastName
 	user.UserName = userDto.UserName
@@ -90,8 +94,15 @@ func (s *userService) InsertUser(userDto dto.UserDto) (dto.UserDto, e.ApiError) 
 
 	user.Password = hashedPassword //Ver como hasheo la pass
 	user.Email = userDto.Email
+	user.Type = userDto.Type
 
 	user = userClient.InsertUser(user)
+
+	if user.Id == 0 {
+		return userDto, e.NewBadRequestApiError("Nombre de usuario repetido")
+	}
+
+	//Validacion de error por repeticion de mail falta
 
 	userDto.Id = user.Id
 

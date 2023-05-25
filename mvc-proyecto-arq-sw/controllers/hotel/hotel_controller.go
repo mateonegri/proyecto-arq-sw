@@ -57,10 +57,9 @@ func InsertHotel(c *gin.Context) {
 	c.JSON(http.StatusCreated, hotelDto)
 }
 
-/* func UpdateHotel(c *gin.Context)  { //Ver si hace falta otro Dto para hacer el update
-	var hotelDto dto.HotelDto          //Ya sea de los available rooms, de imagenes, descripciones, etc.
-
-	err := c.BindJSON(&hotelDto)
+func UpdateHotel(c *gin.Context) { //Ver si hace falta otro Dto para hacer el update
+	var updateHotelDto dto.UpdateHotelDto
+	err := c.BindJSON(&updateHotelDto)
 
 	// Error Parsing json param
 	if err != nil {
@@ -69,10 +68,23 @@ func InsertHotel(c *gin.Context) {
 		return
 	}
 
+	var hotelDto dto.HotelDto
 
-} */
+	hotelDto, er := service.HotelService.UpdateHotel(updateHotelDto)
+	// Error del Insert
+	if er != nil {
+		c.JSON(er.Status(), er)
+		return
+	}
+
+	c.JSON(http.StatusCreated, hotelDto)
+}
 
 func CheckAvailability(c *gin.Context) {
+	log.Debug("Hotel id to load: " + c.Param("id"))
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
 	var checkRoomDto dto.CheckRoomDto
 	er := c.BindJSON(&checkRoomDto)
 
@@ -83,8 +95,10 @@ func CheckAvailability(c *gin.Context) {
 	}
 	log.Debug(checkRoomDto)
 
+	//Validar fechas
+
 	var availabilityResponseDto dto.Availability
-	availabilityResponseDto, err := service.BookingService.GetBookingByHotelIdAndDate(checkRoomDto)
+	availabilityResponseDto, err := service.BookingService.GetBookingByHotelIdAndDate(checkRoomDto, id)
 	if err != nil {
 		if err.Status() == 400 {
 			c.JSON(http.StatusBadRequest, err.Error())
@@ -102,4 +116,40 @@ func CheckAvailability(c *gin.Context) {
 	// Y comparo la cantidad de bookings que tengo en esa fecha
 	// con la cantidad de habitaciones totales del hotel
 	// si en alguna fecha no cumple, no tengo disponibilidad
+}
+
+func DeleteHotel(c *gin.Context) {
+	log.Debug("Hotel id to load: " + c.Param("hotel_id"))
+
+	id, _ := strconv.Atoi(c.Param("hotel_id"))
+
+	log.Debug("User id to load: " + c.Param("user_id"))
+
+	user_id, _ := strconv.Atoi(c.Param("user_id"))
+
+	/*var deleteHotelDto dto.DeleteHotelDto
+	er := c.BindJSON(&deleteHotelDto)
+
+	if er != nil {
+		log.Error(er.Error())
+		c.JSON(http.StatusBadRequest, er.Error())
+		return
+	}
+	log.Debug(deleteHotelDto)*/
+
+	var responseDeleteDto dto.DeleteHotelResponseDto
+
+	responseDeleteDto, err := service.HotelService.DeleteHotel(id, user_id)
+
+	if err != nil {
+		if err.Status() == 400 {
+			c.JSON(http.StatusBadRequest, err.Error())
+			return
+		}
+		c.JSON(http.StatusForbidden, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, responseDeleteDto)
+
 }
