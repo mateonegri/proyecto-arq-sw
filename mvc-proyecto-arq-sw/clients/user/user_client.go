@@ -12,11 +12,27 @@ var Db *gorm.DB
 func GetUserByUsername(username string) (model.User, error) {
 	var user model.User
 	result := Db.Where("user_name = ?", username).First(&user)
+
+	log.Debug("User: ", user)
+
 	if result.Error != nil {
 		return user, result.Error
 	}
 
 	return user, nil
+}
+
+func GetUserByEmail(email string) bool {
+	var user model.User
+	result := Db.Where("email = ?", email).First(&user)
+
+	log.Debug("User: ", user)
+
+	if result.Error != nil {
+		return true //si no lo encuentra --> no existe
+	}
+
+	return false
 }
 
 func GetUserById(id int) model.User {
@@ -32,17 +48,14 @@ func GetUserById(id int) model.User {
 
 func CheckUserById(id int) bool {
 	var user model.User
-	var exist bool
 
 	result := Db.Where("id = ?", id).First(&user)
 
 	if result.Error != nil {
-		exist = false
-		return exist
+		return false
 	}
 
-	exist = true
-	return exist
+	return true
 }
 
 func GetUsers() model.Users {

@@ -20,7 +20,9 @@ func mapUrls() {
 	router.GET("/hotel/:id", hotelController.GetHotelById)
 	router.GET("/hotel", hotelController.GetHotels)
 	router.POST("/hotel", hotelController.InsertHotel)
-	router.POST("/hotel/availability", hotelController.CheckAvailability)
+	router.POST("/hotel/availability/:id", hotelController.CheckAvailability)
+	router.PUT("/hotel/update", hotelController.UpdateHotel)
+	router.DELETE("/hotel/delete/:hotel_id/:user_id", hotelController.DeleteHotel)
 
 	// Bookings Mapping
 	router.GET("/booking/:id", bookingController.GetBookingById)

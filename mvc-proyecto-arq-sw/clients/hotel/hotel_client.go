@@ -20,17 +20,14 @@ func GetHotelById(id int) model.Hotel {
 
 func CheckHotelById(id int) bool {
 	var hotel model.Hotel
-	var exist bool
 
 	result := Db.Where("id = ?", id).First(&hotel)
 
 	if result.Error != nil {
-		exist = false
-		return exist
+		return false
 	}
 
-	exist = true
-	return exist
+	return true
 }
 
 func GetHotels() model.Hotels {
@@ -53,8 +50,22 @@ func InsertHotel(hotel model.Hotel) model.Hotel {
 	return hotel
 }
 
-/*
-func UpdateAvailableRooms() model.Hotel { //Preguntar esto!
-	result := Db.UpdateColumn()
+func UpdateHotelById(hotel model.Hotel) model.Hotel {
+
+	Db.Model(&hotel).Where("id = ? ", hotel.Id).Updates(map[string]interface{}{"hotel_name": hotel.HotelName, "hotel_description": hotel.HotelDescription, "rooms": hotel.Rooms, "address": hotel.Address, "image_url": hotel.ImageURL})
+
+	log.Debug("Hotel Updated or Created: ", hotel.Id)
+
+	return hotel
 }
-*/
+
+func DeleteHotel(hotel model.Hotel) (bool, error) {
+
+	result := Db.Delete(&hotel, hotel.Id)
+
+	if result.Error != nil {
+		return false, result.Error
+	}
+
+	return true, nil
+}

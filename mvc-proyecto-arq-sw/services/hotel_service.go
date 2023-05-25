@@ -1,7 +1,9 @@
 package services
 
 import (
+	log "github.com/sirupsen/logrus"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
+	userClient "mvc-proyecto-arq-sw/clients/user"
 
 	"mvc-proyecto-arq-sw/dto"
 	"mvc-proyecto-arq-sw/model"
@@ -14,11 +16,8 @@ type hotelServiceInterface interface {
 	GetHotels() (dto.HotelsDto, e.ApiError)
 	InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiError)
 	GetHotelById(id int) (dto.HotelDto, e.ApiError)
-	GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError)
-	//UpdateAvailableRooms --> Faltaria esta funcion, aca y en el client.
-	//Le paso el dia y en base a eso me consulta la availability
-	//CheckAvailabiltyRange()
-
+	UpdateHotel(updateHotelDto dto.UpdateHotelDto) (dto.HotelDto, e.ApiError)
+	DeleteHotel(idHotel int, idUser int) (dto.DeleteHotelResponseDto, e.ApiError)
 }
 
 var (
@@ -37,12 +36,12 @@ func (s *hotelService) GetHotelById(id int) (dto.HotelDto, e.ApiError) {
 		return hotelDto, e.NewBadRequestApiError("Hotel no encontrado")
 	}
 
+	hotelDto.Id = hotel.Id
 	hotelDto.HotelName = hotel.HotelName
 	hotelDto.HotelDescription = hotel.HotelDescription
 	hotelDto.Address = hotel.Address
 	hotelDto.Rooms = hotel.Rooms
 	hotelDto.ImageURL = hotel.ImageURL
-	hotelDto.AvailableRooms = hotel.AvailableRooms
 
 	return hotelDto, nil
 
@@ -61,7 +60,6 @@ func (s *hotelService) GetHotels() (dto.HotelsDto, e.ApiError) {
 		hotelDto.Address = hotel.Address
 		hotelDto.Rooms = hotel.Rooms
 		hotelDto.Id = hotel.Id
-		hotelDto.AvailableRooms = hotel.AvailableRooms
 
 		hotelsDto = append(hotelsDto, hotelDto)
 	}
@@ -73,12 +71,10 @@ func (s *hotelService) InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiEr
 
 	var hotel model.Hotel
 
-	hotel.Id = hotelDto.Id
 	hotel.HotelName = hotelDto.HotelName
 	hotel.HotelDescription = hotelDto.HotelDescription
 	hotel.Address = hotelDto.Address
 	hotel.Rooms = hotelDto.Rooms
-	hotel.AvailableRooms = hotelDto.AvailableRooms
 	hotel.ImageURL = hotelDto.ImageURL
 
 	hotel = hotelClient.InsertHotel(hotel)
@@ -88,15 +84,67 @@ func (s *hotelService) InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiEr
 	return hotelDto, nil
 }
 
-func (s *hotelService) GetAvailableRoomsById(id int) (dto.HotelDto, e.ApiError) {
-	var hotel model.Hotel = hotelClient.GetHotelById(id)
-	var hotelDto dto.HotelDto
+func (s *hotelService) UpdateHotel(updateHotelDto dto.UpdateHotelDto) (dto.HotelDto, e.ApiError) {
 
-	if hotel.Id == 0 {
-		return hotelDto, e.NewBadRequestApiError("Hotel no encontrado")
+	var hotel model.Hotel
+
+	hotel.HotelName = updateHotelDto.HotelName
+	hotel.HotelDescription = updateHotelDto.HotelDescription
+	hotel.Address = updateHotelDto.Address
+	hotel.Rooms = updateHotelDto.Rooms
+	hotel.ImageURL = updateHotelDto.ImageURL
+	hotel.Id = updateHotelDto.Id
+
+	var hotelDto dto.HotelDto
+	var user model.User
+
+	user = userClient.GetUserById(updateHotelDto.UserId)
+
+	if user.Type == false {
+		return hotelDto, e.NewBadRequestApiError("El usuario no es administrador")
 	}
 
-	hotelDto.AvailableRooms = hotel.AvailableRooms
+	if hotelClient.CheckHotelById(hotel.Id) == false {
+		return hotelDto, e.NewBadRequestApiError("El hotel no esta registrado en el sistema")
+	}
+
+	log.Debug("Id model", hotel.Id)
+	log.Debug("Id dto", updateHotelDto.Id)
+
+	hotel = hotelClient.UpdateHotelById(hotel)
+
+	hotelDto, _ = s.GetHotelById(hotel.Id)
 
 	return hotelDto, nil
+
+}
+
+func (s *hotelService) DeleteHotel(idHotel int, idUser int) (dto.DeleteHotelResponseDto, e.ApiError) {
+	var hotel model.Hotel
+	var user model.User
+	var response dto.DeleteHotelResponseDto
+
+	// user = userClient.GetUserById(deleteHotelDto.UserId)
+	user = userClient.GetUserById(idUser)
+
+	// hotel.Id = deleteHotelDto.HotelId
+	hotel.Id = idHotel
+
+	if user.Type == false {
+		return response, e.NewBadRequestApiError("El usuario no es administrador")
+	}
+
+	if hotelClient.CheckHotelById(hotel.Id) == false {
+		return response, e.NewBadRequestApiError("El hotel no esta registrado en el sistema")
+	}
+
+	var err error
+
+	response.DeleteConfirm, err = hotelClient.DeleteHotel(hotel) // Si DeleteHotel devuelve true --> Se elimino sin problema
+
+	if !response.DeleteConfirm {
+		return response, e.NewInternalServerApiError("Error al borrar hotel de la BD", err)
+	}
+
+	return response, nil
 }

@@ -14,8 +14,6 @@ type CheckRoomDto struct {
 
 	StartDate int `json:"start_date"`
 	EndDate   int `json:"end_date"`
-
-	HotelId int `json:"booked_hotel_id"`
 }
 
 type CheckRoomsDto []CheckRoomDto

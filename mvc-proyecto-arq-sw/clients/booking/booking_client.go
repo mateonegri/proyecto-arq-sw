@@ -47,7 +47,7 @@ func GetBookingsByHotelIdAndUser(id_hotel int, startDate int) int {
 	var availableRooms int
 
 	var booking model.Booking
-	Db.Model(&booking).Where("hotel_id = ? AND start_date <= ? AND end_date >= ?", id_hotel, startDate, startDate).Count(&availableRooms)
+	Db.Model(&booking).Where("hotel_id = ? AND start_date < ? AND end_date > ?", id_hotel, startDate, startDate).Count(&availableRooms)
 	//Db.Find(&bookings).Where("hotel_id = ? AND start_date < ? AND end_date > ?", id_hotel, startDate, startDate)
 	log.Debug("Count:", availableRooms)
 

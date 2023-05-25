@@ -16,7 +16,7 @@ type bookingServiceInterface interface {
 	GetBookingById(id int) (dto.BookingDetailDto, e.ApiError)
 	GetBookings() (dto.BookingsDetailDto, e.ApiError)
 	InsertBooking(bookingDto dto.BookingDto) (dto.BookingDto, e.ApiError)
-	GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (dto.Availability, e.ApiError)
+	GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError)
 }
 
 var (
@@ -92,11 +92,10 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 
 	checkAvailabilityDto.StartDate = bookingDto.StartDate
 	checkAvailabilityDto.EndDate = bookingDto.EndDate
-	checkAvailabilityDto.HotelId = bookingDto.HotelId
 
 	var responseAvailabilityDto dto.Availability
 
-	responseAvailabilityDto, _ = s.GetBookingByHotelIdAndDate(checkAvailabilityDto)
+	responseAvailabilityDto, _ = s.GetBookingByHotelIdAndDate(checkAvailabilityDto, bookingDto.HotelId)
 
 	if responseAvailabilityDto.OkToBook == false {
 		return bookingDto, e.NewBadRequestApiError("El hotel no tiene disponibilidad en esas fechas")
@@ -115,12 +114,11 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 
 }
 
-func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto) (dto.Availability, e.ApiError) {
+func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError) {
 	var ocuppiedRoomsDay int = 0
 
 	startDate := request.StartDate
 	endDate := request.EndDate
-	idHotel := request.HotelId
 
 	var hotel model.Hotel = hotelClient.GetHotelById(idHotel)
 	var responseDto dto.Availability
