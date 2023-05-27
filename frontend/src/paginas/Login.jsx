@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Cookies from "universal-cookie";
 import Navbar from "../componentes/Navbar.jsx";
+import "../hojas-de-estilo/Login.css"
 
 const Cookie = new Cookies();
 
@@ -15,7 +16,7 @@ async function login(username, password) {
     body: JSON.stringify({"username": username, "password":password})
   })
       .then(response => {
-        if (response.status == 400 || response.status == 401)
+        if (response.status === 400 || response.status === 401)
         {
           return {"user_id": -1}
         }
@@ -49,7 +50,7 @@ export function Login() {
       if (Cookie.get("user_id") > -1) {
         goto("/")
       }
-      else if (Cookie.get("user_id") == -1) {
+      else if (Cookie.get("user_id") === -1) {
         setErrorMessages({name: "default", message: error})
       }
     })
@@ -68,11 +69,11 @@ export function Login() {
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label>Usuario </label>
-            <input type="text" name="uname" placeholder="Usuario" required />
+            <input type="text" name="uname" required />
           </div>
           <div className="input-container">
             <label>Contraseña</label>
-            <input type="password" name="pass" placeholder="Contraseña" required />
+            <input type="password" name="pass" required />
           </div>
 
           {renderErrorMessage("default")}
@@ -90,17 +91,17 @@ export function Login() {
   }
 
   return (
-    <>
-    <Navbar />      
-    <div className="app">
+    <> 
+    <Navbar /> 
+    <div className="app"> 
         <div className="login-form">
           <div className="title">BIENVENIDOS</div>
-
           {isSubmitted || Cookie.get("user_id") > -1 ? Cookie.get("username") : renderForm}
         </div>
-
-        <button onClick={logout}>Log Out</button>
-      </div>
+    </div>
+    <div className="logout-button">
+          <button  onClick={logout}>Log Out</button>
+    </div>
     </>
   );
 }
