@@ -1,0 +1,97 @@
+.app {
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+
+}
+  
+  input[type="text"],
+  input[type="password"] {
+    height: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: gainsboro;
+  }
+  
+  input[type="submit"] {
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    background: #01d28e;
+    border: 1px solid #01d28e;
+    color: #fff;
+    padding: 10px 20px;
+    
+  }
+  
+  input[type="submit"]:hover {
+    background: #6cf0c2;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .login-form {
+   position: absolute;
+   top: 30%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 300px; 
+   padding: 2em; 
+   background-color: lightgrey;
+   border-radius: 1px; 
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
+   margin-top: 6em;
+  }
+  
+  .list-container {
+    display: flex;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  
+  .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+  }
+
+  @media (max-width: 600px) {
+    .login-form {
+      width: 80%; /* Adjust the width for smaller screens */
+    }
+  }
+
+  .logout-button {
+    text-align: center;
+    margin-top: 5em;
+  }
+
+  .logout-button button {
+    padding: 0.5rem 1rem;
+    background-color: darkgray;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .logout-button button:hover {
+    background-color: gray;
+  }

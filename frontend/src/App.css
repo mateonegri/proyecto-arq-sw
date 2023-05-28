@@ -72,10 +72,27 @@ h1 {
 /*    align-items: center;*/
 /*    padding: 1.5rem;*/
 
+<<<<<<< HEAD
 /*}*/
 
 /*.nav li:hover {*/
 /*    background-color: aliceblue;*/
 /*    color: darkgray;*/
 /*}*/
+=======
+}
+.nav li.active {
+    background-color: gainsboro;
+
+}
+.nav li:hover {
+    background-color: aliceblue;
+    color: darkgray;
+}
+
+.foto-logo {
+    height: 100px;
+}
+
+>>>>>>> 4faf5513968713b4aafb1e3bad2c30a2287b6ed4
 
