@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import HotelCard from "./HotelCard";
 
-const hotels = "http://localhost:3000/hotel.json"
+const hotels = "http://localhost:8090/hotel"
 
 const Hotel = () => {
 

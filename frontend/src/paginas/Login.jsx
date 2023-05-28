@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import Cookies from "universal-cookie";
@@ -7,7 +6,6 @@ import "../hojas-de-estilo/Login.css"
 import { Link } from 'react-router-dom'
 
 const Cookie = new Cookies();
-
 async function login(username, password) {
   return await fetch('http://localhost:8090/login', {
     method: 'POST',
@@ -109,4 +107,3 @@ export function Login() {
     </>
   );
 }
-

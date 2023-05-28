@@ -4,8 +4,7 @@ import {Link} from "react-router-dom"
 function Navbar (){
     return <nav className='nav'>
         <a href='/' className='Titulo-de-la-web'>TU HOTEL</a>
-        <img className='foto-logo'
-        src={require('../imagenes/TU HOTEL.png')}/>
+
 
         <ul>
             <li className='active'>
