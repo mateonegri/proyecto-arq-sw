@@ -2,6 +2,59 @@ import React, { useState } from "react";
 import FormInput from "../componentes/FormInput.jsx"
 import "../hojas-de-estilo/SignInStyle.css"
 import Navbar from "../componentes/Navbar.jsx";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
+
+function goTo(path){
+    setTimeout(() => {
+        window.location = window.location.origin + path;
+    }, 3000)
+  }
+  
+const notifyRegistered = () => {
+    toast.success("Registrado!", {
+        pauseOnHover: false,
+        autoClose: 2000,
+    })
+}
+
+const notifyError = () => {
+    toast.error("Email o Nombre de usuario ya registrados!", {
+        pauseOnHover: false,
+        autoClose: 2000,
+    })
+}
+
+const postUser = "http://localhost:8090/user"
+
+async function insertUser(jsonData) {
+
+        const response = await fetch(postUser, {
+            method: "POST",
+            headers:{"content-type":"application/json"},
+            body: JSON.stringify(jsonData)
+        }).then(response => {
+            if (response.status === 400 || response.status === 401 || response.status === 403) {
+                console.log("Error al insertar usuario"); 
+
+                notifyError();
+
+                return response.json();
+
+            } else {
+                console.log("User added"); 
+
+                notifyRegistered();
+
+                goTo("/login");
+
+                return response.json();
+            }
+
+        })
+
+}
+
 
 export const SignIn = () => {
 
@@ -74,8 +127,22 @@ export const SignIn = () => {
         }
     ]
 
-    const handleSubmit = (e) => {
+     const jsonData = {
+        "name": values.name,
+        "last_name": values.last_name,
+        "username": values.username,
+        "password": values.password,
+        "email": values.email,
+        "type": false
+    } 
+
+    // const userObj = { name, last_name, username, password, email, type}
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        insertUser(jsonData)
+
     }
 
     const onChange = (e) => {
@@ -96,6 +163,7 @@ export const SignIn = () => {
                 <button className="RegisterButton">Registrarse!</button>
             </form>
         </div>
+        <ToastContainer />
         </>
     )
         

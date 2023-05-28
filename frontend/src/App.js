@@ -8,6 +8,8 @@ import { SignIn } from './paginas/SignIn';
 import RutasPrivadas from "./Rutas/RutasPrivadas";
 import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
 
@@ -28,6 +30,7 @@ function App() {
                 } />
             </Routes>
             </BrowserRouter>
+            <ToastContainer />
         </div>
   );
 

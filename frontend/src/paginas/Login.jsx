@@ -12,7 +12,7 @@ async function login(username, password) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({"username": username, "password":password})
+    body: JSON.stringify({"username": username, "password": password})
   })
       .then(response => {
         if (response.status === 400 || response.status === 401 || response.status === 403)
