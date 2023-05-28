@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react'
 import {useParams} from "react-router-dom";
-import Calendar from "react-calendar";
 import Navbar from "../componentes/Navbar";
 import '../hojas-de-estilo/HotelDetalle.css'
 import 'react-calendar/dist/Calendar.css';
-export const HotelDetalle = () => {
+import { useNavigate } from "react-router-dom";
+
+export const HotelDetalle = ( hotel_id ) => {
     const [hotel, setHotel] = useState()
     const {id} = useParams()
+    const navigate = useNavigate();
 
-    const [value, onChange] = useState(new Date());
-
-    const infoHotel = `http://localhost:3000/hotel.json/${id}`
+    const infoHotel = `http://localhost:8090/hotel/${hotel_id}`
 
     const getHotel = async () => {
         const response = await fetch(infoHotel);
@@ -22,16 +22,18 @@ export const HotelDetalle = () => {
     useEffect(() => {
         getHotel().then((hotel) => setHotel(hotel));
     }, [])
-    return (
-        <div className='contenedor-hoteldetalle'>
-            <Navbar />
-            <div className='calendar'>
-                <ul><p>Selecciona la fecha de estadia</p>
 
-                <Calendar onChange={onChange} value={value} />
-                </ul>
-            </div>
-            <h1>Detalle del hotel </h1>
+    const reservar = () => {
+        navigate(`/home/hotel/reserva/${hotel_id}`);
+    };
+
+
+    return (
+        <div className='contenedor-principal'>
+
+            <Navbar />
+            <div className='contenedor-hoteldetalle'>
+
             <div className='hoteles-detalle'>
 
                 <div className='nombre'>
@@ -42,7 +44,14 @@ export const HotelDetalle = () => {
                     <p>{hotel?.hotel_description}</p>
                  </div>
                 <p>Apurate que a este hotel solo le quedan {hotel?.hotel_available_rooms} habitaciones disponibles </p>
-            </div>
+                <div className='reservar-button'>
+                    <button onClick={reservar}>
+                        RESERVAR
+                    </button>
+                 </div>
+
+                </div>
+        </div>
         </div>
     )
 }

@@ -5,7 +5,6 @@ import Navbar from "../componentes/Navbar.jsx";
 import "../hojas-de-estilo/Login.css"
 
 const Cookie = new Cookies();
-
 async function login(username, password) {
     return await fetch('http://localhost:8090/login', {
         method: 'POST',

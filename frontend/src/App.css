@@ -81,14 +81,14 @@ h1 {
 /*}*/
 
 
-.nav li.active {
-    background-color: gainsboro;
+/*.nav li.active {*/
+/*    background-color: gainsboro;*/
 
-}
-.nav li:hover {
-    background-color: aliceblue;
-    color: darkgray;
-}
+/*}*/
+/*.nav li:hover {*/
+/*    background-color: aliceblue;*/
+/*    color: darkgray;*/
+/*}*/
 
 .foto-logo {
     height: 100px;

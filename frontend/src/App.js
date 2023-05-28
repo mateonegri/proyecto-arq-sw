@@ -5,6 +5,7 @@ import {Login} from './paginas/Login';
 import {navigation} from './Rutas/Navegacion';
 import {HotelDetalle} from "./paginas/HotelDetalle";
 import RutasPrivadas from "./Rutas/RutasPrivadas";
+import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
 
 function App() {
@@ -17,12 +18,12 @@ function App() {
                 <Route path='' element={<Home />}/>
                 <Route path='/home' element={<Home />}/>
                 <Route path='/login' element={<Login />}/>
-                <Route path='/home/hotel/:id' element={
+                <Route path='/home/hotel/:id' element={<HotelDetalle />} />
+                <Route path='/home/hotel/reserva/:id' element={
                     <RutasPrivadas>
-                    <HotelDetalle />
+                    <Reserva />
                     </RutasPrivadas>
-                    }
-                    />
+                } />
             </Routes>
             </BrowserRouter>
         </div>
