@@ -1,11 +1,94 @@
+.contenedor-hoteldetalle {
+    text-align: left;
+    min-height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+
+}
+.h1 {
+    color: black;
+    font-family: Calibri;
+
+}
 .hoteles-detalle {
     width: 1000px;
     height: 1000px;
     margin: 10px 10px 50px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: left;
     background-color: lightblue;
 
 }
 
+.nombre {
+
+    font-weight: bolder;
+    font-size: 25px;
+    line-height: 32px;
+    color: darkslateblue;
+
+}
+.descripcion {
+    font-weight: bolder;
+    font-size: 25px;
+    line-height: 32px;
+    color: darkslateblue;
+
+}
+
+.calendar {
+    font-family: Calibri;
+    font-weight: bolder;
+    font-size: 25px;
+    line-height: 32px;
+    color: darkslateblue;
+    margin: 30px 30px 30px;
+    display: flex;
+    justify-items: left;
+    justify-content: left;
+}
+.nav {
+    background-color: darkgray;
+    background-image: url("sunset3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 2rem;
+    padding: 0 1rem;
+    margin: 0;
+    /*overflow: hidden;*/
+    /* position: fixed;*/
+    top: 0;
+    width: 100%;
+
+}
+
+.Titulo-de-la-web {
+    font-size: 1.8rem;
+}
+.nav ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.nav a {
+    color: inherit;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+
+}
+
+.nav li:hover {
+    background-color: aliceblue;
+    color: darkgray;
+}
