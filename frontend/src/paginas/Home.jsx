@@ -2,8 +2,9 @@ import React from 'react'
 import {Hotel} from "../componentes/Hotel";
 import Navbar from "../componentes/Navbar";
 import Hotels from "../componentes/Hotels";
-export const Home = () => {
+import Cookies from "universal-cookie";
 
+export const Home = () => {
 
 
     return (

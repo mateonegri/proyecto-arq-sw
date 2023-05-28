@@ -1,13 +1,16 @@
 .app {
-    font-family: sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    height: 100vh;
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.3)
+    ),
+    url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+  background-size: cover;
+  background-position: center;
+  text-align: center;
 }
   
   input[type="text"],
@@ -38,16 +41,17 @@
   }
   
   .login-form {
-   position: absolute;
+    position: absolute;
    top: 30%;
    left: 50%;
    transform: translate(-50%, -50%);
    width: 300px; 
-   padding: 2em; 
-   background-color: lightgrey;
-   border-radius: 1px; 
+   background-color: white;
    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); 
    margin-top: 6em;
+
+   padding: 0px 60px;
+   border-radius: 10px;
   }
   
   .list-container {
@@ -80,7 +84,8 @@
 
   .logout-button {
     text-align: center;
-    margin-top: 5em;
+    margin-top: 250px;
+    position: relative;
   }
 
   .logout-button button {
@@ -94,4 +99,11 @@
   
   .logout-button button:hover {
     background-color: gray;
+  }
+
+  .signupLink {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    position: relative;
+    text-align: center;
   }

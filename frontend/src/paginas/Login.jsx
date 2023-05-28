@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import Cookies from "universal-cookie";
 import Navbar from "../componentes/Navbar.jsx";
 import "../hojas-de-estilo/Login.css"
+import { Link } from 'react-router-dom'
 
 const Cookie = new Cookies();
 
@@ -16,7 +17,7 @@ async function login(username, password) {
     body: JSON.stringify({"username": username, "password":password})
   })
       .then(response => {
-        if (response.status === 400 || response.status === 401)
+        if (response.status === 400 || response.status === 401 || response.status === 403)
         {
           return {"user_id": -1}
         }
@@ -52,16 +53,17 @@ export function Login() {
       }
       else if (Cookie.get("user_id") === -1) {
         setErrorMessages({name: "default", message: error})
+        console.log(errorMessages.message)
       }
     })
   };
 
 
   // Generate JSX code for error message
-  const renderErrorMessage = (name) =>
-      name === errorMessages.name && (
+  const renderErrorMessage = (name) => 
+       name === errorMessages.name && (
           <div className="error">{errorMessages.message}</div>
-      );
+  ); 
 
   // JSX code for login form
   const renderForm = (
@@ -75,12 +77,14 @@ export function Login() {
             <label>Contraseña</label>
             <input type="password" name="pass" required />
           </div>
-
           {renderErrorMessage("default")}
           <div className="button-container">
             <input type="submit" />
           </div>
         </form>
+        <div className="signupLink">
+            <Link to='/signin'> No tienes cuenta? Registrate!</Link>
+        </div>
       </div>
 
   );
@@ -95,12 +99,12 @@ export function Login() {
     <Navbar /> 
     <div className="app"> 
         <div className="login-form">
-          <div className="title">BIENVENIDOS</div>
+          <h1>Bienvenido!</h1>
           {isSubmitted || Cookie.get("user_id") > -1 ? Cookie.get("username") : renderForm}
         </div>
-    </div>
-    <div className="logout-button">
+        <div className="logout-button">
           <button  onClick={logout}>Log Out</button>
+        </div>
     </div>
     </>
   );
