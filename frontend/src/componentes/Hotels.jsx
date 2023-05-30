@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import HotelCard from "./HotelCard";
+import Cookies from "universal-cookie";
+
+const Cookie = new Cookies();
 
 const hotels = "http://localhost:8090/hotel"
 
@@ -19,6 +22,7 @@ useEffect(() => {
     getHotel().then ((hotel) => setHotel(hotel));
 },[])
 
+console.log(Cookie.get("user_id"))
 
 return (
     <div className='contenedor-principal'>

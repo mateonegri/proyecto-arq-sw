@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 
 const Cookie = new Cookies();
+
 async function login(username, password) {
   return await fetch('http://localhost:8090/login', {
     method: 'POST',
@@ -33,6 +34,9 @@ function goto(path){
 }
 
 export function Login() {
+
+  console.log(Cookie.get("user_id"))
+
   // React States
   // const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);

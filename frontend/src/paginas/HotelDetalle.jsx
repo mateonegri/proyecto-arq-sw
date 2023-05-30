@@ -8,8 +8,8 @@ import FormInput from "../componentes/FormInput.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Cookies from "universal-cookie";
-const Cookie = new Cookies();
 
+const Cookie = new Cookies();
 
 function convertirFecha(fecha) {
     let fechaString = fecha.toString()
@@ -26,7 +26,7 @@ function convertirFecha(fecha) {
 
     console.log(fechaStringFinal)
 
-    var fechaEntero = parseInt()
+    var fechaEntero = Number(fechaStringFinal)
 
     return fechaEntero
 }
@@ -123,8 +123,9 @@ export const HotelDetalle = ( hotel_id ) => {
                 name:"end_date",
                 type:"date",
                 placeholder:"Fecha Fin",
-                errorMessage:"La fecha de vuelta no puede ser nula!",
+                errorMessage:"La fecha de fin no puede ser menor a la de inicio!",
                 label:"Fecha Fin",
+                pattern: values.end_date > values.start_date,
                 required:true,
             }
 
@@ -133,10 +134,13 @@ export const HotelDetalle = ( hotel_id ) => {
 
         const jsonData = {
             "start_date": convertirFecha(values.start_date),
-            "end_date":convertirFecha(values.end_date),
-            "user_booked_id": Cookie.get("user_id"),
-            "booked_hotel_id": id //hotel_id
+            "end_date": convertirFecha(values.end_date),
+            "user_booked_id": Number(Cookie.get("user_id")),
+            "booked_hotel_id": Number(id) //hotel_id
         }
+
+        console.log(Cookie.get("user_id"))
+        console.log(jsonData)
 
         const handleSubmit = async (e) => {
             e.preventDefault();

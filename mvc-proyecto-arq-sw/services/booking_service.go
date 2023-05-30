@@ -101,6 +101,12 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 		return bookingDto, e.NewBadRequestApiError("El hotel no tiene disponibilidad en esas fechas")
 	}
 
+	//stringStartDate, _ := strconv.Itoa(intStartDate)
+	//stringEndDate, _ := strconv.Itoa(intEndDate)
+
+	//intStartDate, _ := strconv.Atoi(bookingDto.StartDate)
+	//intEndDate, _ := strconv.Atoi(bookingDto.EndDate)
+
 	booking.StartDate = bookingDto.StartDate
 	booking.EndDate = bookingDto.EndDate
 	booking.UserId = bookingDto.UserId
@@ -111,11 +117,13 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 	bookingDto.Id = booking.Id
 
 	return bookingDto, nil
-
 }
 
 func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError) {
 	var ocuppiedRoomsDay int = 0
+
+	//startDate, _ := strconv.Atoi(request.StartDate)
+	//endDate, _ := strconv.Atoi(request.EndDate)
 
 	startDate := request.StartDate
 	endDate := request.EndDate
