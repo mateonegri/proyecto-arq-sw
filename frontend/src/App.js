@@ -23,11 +23,7 @@ function App() {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
-                <Route path='/home/hotel/reserva/:id' element={
-                    <RutasPrivadas>
-                    <Reserva />
-                    </RutasPrivadas>
-                } />
+
             </Routes>
             </BrowserRouter>
         </div>

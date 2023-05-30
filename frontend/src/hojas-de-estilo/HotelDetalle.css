@@ -1,28 +1,23 @@
 .contenedor-hoteldetalle {
-    text-align: left;
-    min-height: 600px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: left;
-
-}
-.h1 {
-    color: black;
-    font-family: Calibri;
-
+    align-items: center;
+    justify-content: center;
 }
 .hoteles-detalle {
-    width: 1000px;
-    height: 1000px;
-    margin: 10px 10px 50px;
+    height: 400px;
+    border-radius: 50px;
+    margin: 10px 10px 10px;
     display: flex;
-    justify-content: left;
     background-color: lightblue;
+    box-shadow: 0 3px 13px 1px rgb(0 0 0 / 9%);
+    text-align: left;
+    line-height: 2rem;
+    margin-left: 50px;
 
 }
 
 .nombre {
-
     font-weight: bolder;
     font-size: 25px;
     line-height: 32px;
@@ -30,11 +25,11 @@
 
 }
 .descripcion {
-    font-weight: bolder;
-    font-size: 25px;
-    line-height: 32px;
-    color: darkslateblue;
-
+    font-weight: 500;
+    font-size: medium;
+    line-height: 2rem;
+    padding-left: 50px;
+    justify-content: left;
 }
 
 .calendar {
@@ -95,7 +90,6 @@
 
 .reservar-button {
     text-align: center;
-    margin-top: 50em;
 
 }
 
