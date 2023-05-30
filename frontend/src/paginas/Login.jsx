@@ -4,6 +4,7 @@ import Cookies from "universal-cookie";
 import Navbar from "../componentes/Navbar.jsx";
 import "../hojas-de-estilo/Login.css"
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from "react-toastify";
 
 const Cookie = new Cookies();
 async function login(username, password) {
@@ -15,7 +16,7 @@ async function login(username, password) {
     body: JSON.stringify({"username": username, "password": password})
   })
       .then(response => {
-        if (response.status === 400 || response.status === 401 || response.status === 403)
+        if (response.status == 400 || response.status == 401 || response.status == 403)
         {
           return {"user_id": -1}
         }
@@ -33,10 +34,18 @@ function goto(path){
 
 export function Login() {
   // React States
-  const [errorMessages, setErrorMessages] = useState({});
+  // const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const error = "Contraseña o Usuario invalido";
+  // const error = "Contraseña o Usuario invalido";
+
+  const notifyError = () => {
+    toast.error("Contraseña o usuario invalido", {
+      pauseOnHover: false,
+      autoClose: 2000,
+    });
+  }
+
 
   const handleSubmit = (event) => {
     //Prevent page reload
@@ -49,19 +58,22 @@ export function Login() {
       if (Cookie.get("user_id") > -1) {
         goto("/")
       }
-      else if (Cookie.get("user_id") === -1) {
-        setErrorMessages({name: "default", message: error})
-        console.log(errorMessages.message)
+      else if (Cookie.get("user_id") == -1) {
+
+        notifyError();
+
+        /* setErrorMessages({name: "default", message: error})
+        console.log(errorMessages.message) */
       }
     })
   };
 
 
-  // Generate JSX code for error message
+/*   // Generate JSX code for error message
   const renderErrorMessage = (name) => 
        name === errorMessages.name && (
           <div className="error">{errorMessages.message}</div>
-  ); 
+  );  */
 
   // JSX code for login form
   const renderForm = (
@@ -75,7 +87,7 @@ export function Login() {
             <label>Contraseña</label>
             <input type="password" name="pass" required />
           </div>
-          {renderErrorMessage("default")}
+           {/* {renderErrorMessage("default")} */}
           <div className="button-container">
             <input type="submit" />
           </div>
@@ -104,6 +116,7 @@ export function Login() {
           <button  onClick={logout}>Log Out</button>
         </div>
     </div>
+    <ToastContainer />
     </>
   );
 }
