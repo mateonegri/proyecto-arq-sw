@@ -9,7 +9,7 @@ function goTo(path){
     setTimeout(() => {
         window.location = window.location.origin + path;
     }, 3000)
-  }
+}
   
 const notifyRegistered = () => {
     toast.success("Registrado!", {
