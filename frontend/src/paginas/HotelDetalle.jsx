@@ -10,6 +10,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import Cookies from "universal-cookie";
 
 const Cookie = new Cookies();
+function getFormattedDate(target) {
+    let year = target.getFullYear()
+    let month = target.getMonth()
+    let day = target.getDate()
+
+    return`${year}-${month<9?'0':''}${month+1}-${day}`
+}
+
 
 function convertirFecha(fecha) {
     let fechaString = fecha.toString()
@@ -30,6 +38,8 @@ function convertirFecha(fecha) {
 
     return fechaEntero
 }
+
+
 const notifyBooked = () => {
     toast.success("Reservado!", {
         pauseOnHover: false,
@@ -44,6 +54,27 @@ const notifyError = () => {
     })
 }
 
+const notifyNotLoggedIn = () => {
+    toast.error("Recuerda que antes debes loggearte!", {
+        pauseOnHover: false,
+        autoClose: 3000,
+    })
+}
+
+const notifyBadDate = () => {
+    toast.error("No puedes seleccionar una fecha devuelta anterior a la de inicio!", {
+        pauseOnHover: false,
+        autoClose: 3000,
+    })
+}
+
+
+function goto(path) {
+    setTimeout(()=> {
+        window.location = window.location.origin + path
+    }, 3000)
+}
+
 export const HotelDetalle = ( hotel_id ) => {
     const [hotel, setHotel] = useState()
     const {id} = useParams()
@@ -52,29 +83,24 @@ export const HotelDetalle = ( hotel_id ) => {
     const infoHotel = `http://localhost:8090/hotel/${id}`
 
 
-
     const postBooking = "http://localhost:8090/booking"
 
-    function goto(path){
-        window.location = window.location.origin + path
-    }
-
-    const chequear =() => {
-        if (Cookie.get("user_id") === -1 ) {
-            goto("/login")
-        }
-    }
     async function insertBooking(jsonData) {
 
         const response = await fetch(postBooking, {
             method: "POST",
-            headers:{"content-type":"application/json"},
+            headers: {"content-type": "application/json"},
             body: JSON.stringify(jsonData)
         }).then(response => {
             if (response.status === 400 || response.status === 401 || response.status === 403) {
                 console.log("Error al reservar");
 
-                notifyError();
+                if (Cookie.get("user_id") === "-1") {
+                    notifyNotLoggedIn()
+                    goto("/login")
+                } else {
+                    notifyError();
+                }
 
                 return response.json();
 
@@ -103,16 +129,20 @@ export const HotelDetalle = ( hotel_id ) => {
     }, [])
 
 
-        const [values, setValues] = useState({
-           "start_date":"",
-            "end_date":"",
-        })
+    const [values, setValues] = useState({
+        "start_date": "",
+        "end_date": "",
+    })
+
+
+
 
         const inputs = [
             {
                 id:1,
                 name:"start_date",
                 type:"date",
+                min: getFormattedDate(new Date()),
                 placeholder:"Fecha Inicio",
                 errorMessage:"La fecha de inicio no puede ser nula!",
                 label:"Fecha Inicio",
@@ -122,10 +152,10 @@ export const HotelDetalle = ( hotel_id ) => {
                 id:2,
                 name:"end_date",
                 type:"date",
+                min: getFormattedDate(new Date()),
                 placeholder:"Fecha Fin",
                 errorMessage:"La fecha de fin no puede ser menor a la de inicio!",
                 label:"Fecha Fin",
-                pattern: values.end_date > values.start_date,
                 required:true,
             }
 
@@ -145,7 +175,9 @@ export const HotelDetalle = ( hotel_id ) => {
         const handleSubmit = async (e) => {
             e.preventDefault();
 
-            insertBooking(jsonData)
+            if (chequearfecha() !== 0) {
+                insertBooking(jsonData)
+            }
         }
 
         const onChange = (e) => {
@@ -153,6 +185,13 @@ export const HotelDetalle = ( hotel_id ) => {
         }
 
         console.log(values);
+
+    function chequearfecha() {
+        if (values.end_date < values.start_date) {
+            notifyBadDate();
+            return 0
+        }
+    }
 
 
 
@@ -176,10 +215,10 @@ export const HotelDetalle = ( hotel_id ) => {
                             <form className= 'reservaForm' onSubmit={handleSubmit}>
                                 <h1>Elija la fecha en la que le gustaria ir:</h1>
                                 {inputs.map((input ) => (
-                                    <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange}/>
+                                    <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
 
                                 ))}
-                                <button className="reservar-button" onClick={chequear}>RESERVAR</button>
+                                <button className="reservar-button" >RESERVAR</button>
                             </form>
                         </div>
                         <ToastContainer />
