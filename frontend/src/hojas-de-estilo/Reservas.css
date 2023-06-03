@@ -1,0 +1,11 @@
+.reservas {
+    border-radius: 50px;
+    width: 1000px;
+    height: 300px;
+    margin: 10px 10px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue;
+    box-shadow: 0 3px 13px 1px rgb(0 0 0 / 9%);
+}

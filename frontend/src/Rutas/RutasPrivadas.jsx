@@ -6,12 +6,12 @@ function goto(path){
     window.location = window.location.origin + path
 }
 const RutasPrivadas = () => {
-    if (Cookie.get("user_id") > -1 ) {
-        goto("/home/hotel/reserva/:id")
-    } else {
-        goto("/login")
-    }
+    if (Cookie.get("user_type") === true ) {
+        goto("/admin/reservas")
 
+    } else {
+        goto("/misreservas")
+    }
 }
 
 export default RutasPrivadas;

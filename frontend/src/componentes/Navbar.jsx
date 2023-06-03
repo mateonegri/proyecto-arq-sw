@@ -14,7 +14,7 @@ function Navbar (){
                 <a href='/login'>Log In</a>
             </li>
             <li>
-                <a href='/misreservas'>Mis Reservas</a>
+                <a href='/home'>Mis Reservas</a>
             </li>
         </ul>
     </nav>
