@@ -5,6 +5,7 @@ import {Login} from './paginas/Login';
 import {navigation} from './Rutas/Navegacion';
 import {HotelDetalle} from "./paginas/HotelDetalle";
 import { SignIn } from './paginas/SignIn';
+import {MisReservas} from './paginas/'
 import RutasPrivadas from "./Rutas/RutasPrivadas";
 import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
@@ -23,7 +24,9 @@ function App() {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
-
+                <RutasPrivadas>
+                    <Route path='/misreservas' element={<Mis}
+                </RutasPrivadas>
             </Routes>
             </BrowserRouter>
         </div>
