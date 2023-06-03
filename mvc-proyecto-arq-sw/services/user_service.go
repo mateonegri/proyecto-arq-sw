@@ -145,6 +145,7 @@ func (s *userService) Login(loginDto dto.LoginDto) (dto.LoginResponseDto, e.ApiE
 
 	loginResponseDto.UserId = user.Id
 	loginResponseDto.Token = tokenString
+	loginResponseDto.Type = user.Type
 	log.Debug(loginResponseDto)
 	return loginResponseDto, nil
 }
