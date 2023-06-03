@@ -1,5 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
  const HotelCard = ({ hotel_name, hotel_address, hotel_id, hotel_description, hotel_image }) => {
     const navigate = useNavigate();
 
@@ -7,25 +16,31 @@ import { useNavigate } from "react-router-dom";
         navigate(`/home/hotel/${hotel_id}`);
     };
 
-    return (
-        <div className='contenedor-hotel'>
-            <section onClick={selectHotel}>
-                <div className='contenedor-informacion-hotel'>
-                    <div className='nombre-hotel'>
-                        <h1>{hotel_name}</h1>
-                    </div>
-                    <div className='ubicacion-hotel'>
-                        <p>{hotel_address}</p>
-                    </div>
-                    <div className='descripcion-hotel'>
-                        <p>{hotel_description}</p>
-                    </div>
-                    {/*<div className='imagen-hotel'>*/}
-                    {/*    <img src={require(hotel.hotel_image_url)}/>*/}
-                    {/*</div>*/}
-                </div>
-            </section>
-        </div>
-    );
-}
+    console.log(hotel_image)
+        return (
+        <Card sx={{width:'92%'}} onClick={selectHotel} className="cartaHotel">
+          <CardMedia
+          component="img"
+          alt={hotel_name}
+          height="140"
+          image = {hotel_image}
+
+          />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            {hotel_name}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          <p>{hotel_address}</p>
+          <p>{hotel_description}</p>
+          </Typography>
+        
+        </CardContent>
+        <CardActions>
+          <Button className="masinfo-boton">Mas Informacion</Button>
+        </CardActions>
+      </Card>
+          );
+        }
+
 export default HotelCard;
