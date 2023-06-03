@@ -13,15 +13,9 @@ type BookingDto struct {
 	StartDate int `json:"start_date"`
 	EndDate   int `json:"end_date"`
 
-	/*StartDay   int `json:"start_day"`
-	StartMonth int `json:"start_month"`
-	StartYear  int `json:"start_year"`
 
-	//Nights int `json:"nights"`
 
-	EndDay   int `json:"end_day"`
-	EndMonth int `json:"end_month"`
-	EndYear  int `json:"end_year"`*/
+
 }
 
 type BookingsDto []BookingDto

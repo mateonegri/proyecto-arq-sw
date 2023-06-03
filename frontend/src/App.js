@@ -5,7 +5,9 @@ import {Login} from './paginas/Login';
 import {navigation} from './Rutas/Navegacion';
 import {HotelDetalle} from "./paginas/HotelDetalle";
 import { SignIn } from './paginas/SignIn';
-import {MisReservas} from './paginas/'
+import {MisReservas} from './paginas/MisReservas';
+import {ReservasAdmin} from './paginas/ReservasAdmin';
+
 import RutasPrivadas from "./Rutas/RutasPrivadas";
 import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
@@ -25,7 +27,7 @@ function App() {
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
                 <RutasPrivadas>
-                    <Route path='/misreservas' element={<Mis}
+                    <Route path='/misreservas' element={<MisReservas />} />
                 </RutasPrivadas>
             </Routes>
             </BrowserRouter>
