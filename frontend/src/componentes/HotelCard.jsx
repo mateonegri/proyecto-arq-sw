@@ -20,9 +20,13 @@ const Cookie = new Cookies();
         navigate(`/home/hotel/${hotel_id}`);
     };
 
+    const editHotel = () => {
+        navigate(`/hotel/edit/${hotel_id}`)
+    }
+
     const renderButton = (
         <>
-        <Button className="masinfo-boton">Editar</Button>
+        <Button className="masinfo-boton" onClick={editHotel}>Editar</Button>
         </>
     )
 
