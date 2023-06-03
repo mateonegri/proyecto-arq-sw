@@ -95,5 +95,19 @@ h1 {
     height: 100px;
 }
 
+.cartaHotel {
+    padding-left: 20px;
+    margin-bottom: 30px;
+}
+
+.masinfo-boton button {
+    padding: 1.5rem 2rem;
+    background-color: #01d28e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: large;
+}
 
 
