@@ -40,6 +40,7 @@ func (s *bookingService) GetBookingById(id int) (dto.BookingDetailDto, e.ApiErro
 		bookingDto.StartYear = booking.StartYear
 		bookingDto.EndDay = booking.EndDay
 	*/
+	bookingDto.Id = booking.Id
 	bookingDto.StartDate = booking.StartDate
 	bookingDto.EndDate = booking.EndDate
 	bookingDto.UserId = booking.UserId

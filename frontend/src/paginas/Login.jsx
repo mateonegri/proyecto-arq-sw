@@ -26,6 +26,7 @@ async function login(username, password) {
       .then(response => {
         Cookie.set("user_id", response.user_id, {path: '/'})
         Cookie.set("username", username, {path: '/login'})
+        Cookie.set("user_type", response.type, {path: '/'})
       })
 }
 

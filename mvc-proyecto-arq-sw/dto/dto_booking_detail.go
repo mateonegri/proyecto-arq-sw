@@ -9,6 +9,8 @@ type BookingDetailDto struct {
 	EndMonth int `json:"end_month"`
 	EndYear  int `json:"end_year"`*/
 
+	Id int `json:"booking_id"`
+
 	StartDate int `json:"start_date"`
 	EndDate   int `json:"end_date"`
 
