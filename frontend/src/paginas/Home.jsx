@@ -10,7 +10,7 @@ const Cookie = new Cookies()
 
 export const Home = () => {
 
-    if (Cookie.get("user_type") == false){
+    if (Cookie.get("user_type") === "true"){
         console.log("Anda")
     }
 

@@ -8,23 +8,39 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Cookies from "universal-cookie";
+
+const Cookie = new Cookies();
 
  const HotelCard = ({ hotel_name, hotel_address, hotel_id, hotel_description, hotel_image }) => {
     const navigate = useNavigate();
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const selectHotel = () => {
         navigate(`/home/hotel/${hotel_id}`);
     };
 
+    const renderButton = (
+        <>
+        <Button className="masinfo-boton">Editar</Button>
+        </>
+    )
+
+    const renderNothing = (
+        <>
+        </>
+    )
+
+
     console.log(hotel_image)
         return (
-        <Card sx={{width:'92%'}} onClick={selectHotel} className="cartaHotel">
+        <Card sx={{width:'92%'}} className="cartaHotel">
           <CardMedia
           component="img"
           alt={hotel_name}
           height="140"
           image = {hotel_image}
-
+          
           />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -37,7 +53,8 @@ import Typography from '@mui/material/Typography';
         
         </CardContent>
         <CardActions>
-          <Button className="masinfo-boton">Mas Informacion</Button>
+            {Cookie.get("user_type") === "true" ? renderButton : renderNothing} 
+          <Button className="masinfo-boton" onClick={selectHotel}>Mas Informacion</Button>
         </CardActions>
       </Card>
           );

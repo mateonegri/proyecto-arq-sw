@@ -19,7 +19,7 @@ async function login(username, password) {
       .then(response => {
         if (response.status == 400 || response.status == 401 || response.status == 403)
         {
-          return {"user_id": -1}
+          return {"user_id": -1, "user_type": "false"}
         }
         return response.json()
       })
@@ -106,6 +106,7 @@ export function Login() {
 
   function logout(){
     Cookie.set("user_id", -1, {path: "/"})
+    Cookie.set("user_type", false)
     document.location.reload()
   }
 
