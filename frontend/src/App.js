@@ -31,6 +31,9 @@ function App() {
                 <Route path='/misreservas' element={<MisReservas />} />
                 <Route path='/hotel/insert' element={<InsertarHotel />} />
               
+                <Route path='/admin/reservas' element={<ReservasAdmin />} />
+                <Route path='/misreservas' element={<MisReservas />} />
+
             </Routes>
             </BrowserRouter>
         </div>
