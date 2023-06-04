@@ -25,10 +25,9 @@ function App() {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
+                <Route path='/admin/reservas' element={<ReservasAdmin />} />
+                <Route path='/misreservas' element={<MisReservas />} />
 
-                <Route element={<RutasPrivadas/>}>
-                    <Route path='/misreservas' element={<MisReservas />} />
-                </Route>
             </Routes>
             </BrowserRouter>
         </div>
