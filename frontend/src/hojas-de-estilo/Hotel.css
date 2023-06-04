@@ -38,8 +38,8 @@
     line-height: 1.5rem;
 }
 .nav {
-    background-color: darkgray;
-    background-image: url("sunset2.2.jpg");
+    background-color: red;
+    /* background-image: url("sunset2.2.jpg"); */
     background-repeat: no-repeat;
     background-size: cover;
     color: white;

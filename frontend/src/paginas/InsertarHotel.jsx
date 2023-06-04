@@ -103,7 +103,7 @@ export const InsertarHotel = (hotel_id) => {
             type:"number",
             placeholder:"Habitaciones",
             errorMessage: "No puede dejar este campo vacio!",
-            label:"Email",
+            label:"Habitaciones",
             required: true,
         },
         {
