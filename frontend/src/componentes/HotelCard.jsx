@@ -51,7 +51,7 @@ const Cookie = new Cookies();
             {hotel_name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-          <p>{hotel_address}</p>
+          {/* <p>{hotel_address}</p> */}
           <p>{hotel_description}</p>
           </Typography>
         

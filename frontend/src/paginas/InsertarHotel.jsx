@@ -18,38 +18,38 @@ function goTo(path){
 }
   
 const notifyRegistered = () => {
-    toast.success("Actualizado!", {
+    toast.success("Agregado!", {
         pauseOnHover: false,
         autoClose: 2000,
     })
 }
 
 const notifyError = () => {
-    toast.error("Error al actualizar!", {
+    toast.error("Error al agregar!", {
         pauseOnHover: false,
         autoClose: 2000,
     })
 }
 
 
-const postUser = "http://localhost:8090/hotel/update"
+const postUser = "http://localhost:8090/hotel"
 
 async function updateHotel(jsonData) {
 
         const response = await fetch(postUser, {
-            method: "PUT",
+            method: "POST",
             headers:{"content-type":"application/json"},
             body: JSON.stringify(jsonData)
         }).then(response => {
             if (response.status === 400 || response.status === 401 || response.status === 403) {
-                console.log("Error al actualizar hotel"); 
+                console.log("Error al agregar hotel"); 
 
                 notifyError();
 
                 return response.json();
 
             } else {
-                console.log("Hotel updated"); 
+                console.log("Hotel inserted"); 
 
                 notifyRegistered();
 
@@ -64,24 +64,11 @@ async function updateHotel(jsonData) {
 
 
 
-export const EditarHotel = (hotel_id) => {
+export const InsertarHotel = (hotel_id) => {
 
     const navigate = useNavigate();
 
     const {id} = useParams()
-
-    let deleteHotelURL = `http://localhost:8090/hotel/delete/${id}/${Cookie.get("user_id")}`
-
-    console.log(deleteHotelURL)
-
-    function deleteHotel() {
-         fetch(deleteHotelURL, { 
-            method: 'DELETE' 
-        })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-    }
 
     const [values, setValues] = useState({
         name:"",
@@ -97,35 +84,45 @@ export const EditarHotel = (hotel_id) => {
             name:"name",
             type:"text",
             placeholder:"Nombre",
+            errorMessage: "El nombre no puede ser nulo!",
             label:"Nombre",
+            required: true,
         },
         {
             id:2,
             name:"description",
             type:"text",
             placeholder:"Descripcion del hotel",
+            errorMessage: "Ingrese una descripcion del hotel",
             label:"Descripcion del hotel",
+            required: true,
         },
         {
             id:3,
             name:"rooms",
             type:"number",
             placeholder:"Habitaciones",
+            errorMessage: "No puede dejar este campo vacio!",
             label:"Email",
+            required: true,
         },
         {
             id:4,
             name:"address",
             type:"text",
             placeholder:"Direccion del hotel",
+            errorMessage: "No puede dejar este campo vacio!",
             label:"Direccion del hotel",
+            required: true,
         },
         {
             id:5,
             name:"ImageURL",
             type:"text",
             placeholder:"URL de la Imagen",
+            errorMessage: "No puede dejar este campo vacio!",
             label:"URL de la Imagen",
+            required: true,
         },
     ]
 
@@ -150,18 +147,8 @@ export const EditarHotel = (hotel_id) => {
 
     }
 
-    const handleDelete = async (e) => {
-        e.preventDefault();
-
-        deleteHotel();
-    }
-
     const onChange = (e) => {
         setValues({...values, [e.target.name]: e.target.value})
-    }
-
-    const handleInsert = () => {
-        navigate(`/hotel/insert`)
     }
 
     console.log(values);
@@ -171,16 +158,12 @@ export const EditarHotel = (hotel_id) => {
         <Navbar />
         <div className="Page">
             <form className = "SignInForm" onSubmit={handleSubmit}>
-                <h1>Actualizacion!</h1>
+                <h1>Agregue un hotel!</h1>
                 {inputs.map((input) => (
                     <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange}/>
                 ))}
-                <button className="RegisterButton">Actualizar!</button>
+                <button className="RegisterButton">Agregar!</button>
             </form>
-            <div className="AdminHotelOptions">
-                <button className="DeleteButton" onClick={handleDelete}>Borrar!</button>
-                <button className="AddHotelButton" onClick={handleInsert}>Agregar Hotel!</button>
-            </div>
         </div>
         <ToastContainer />
         </>

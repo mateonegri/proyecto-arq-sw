@@ -14,9 +14,9 @@ type hotelService struct{}
 
 type hotelServiceInterface interface {
 	GetHotels() (dto.HotelsDto, e.ApiError)
-	InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiError)
+	InsertHotel(hotelDto dto.HandleHotelDto) (dto.HotelDto, e.ApiError)
 	GetHotelById(id int) (dto.HotelDto, e.ApiError)
-	UpdateHotel(updateHotelDto dto.UpdateHotelDto) (dto.HotelDto, e.ApiError)
+	UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.HotelDto, e.ApiError)
 	DeleteHotel(idHotel int, idUser int) (dto.DeleteHotelResponseDto, e.ApiError)
 }
 
@@ -64,9 +64,17 @@ func (s *hotelService) GetHotels() (dto.HotelsDto, e.ApiError) {
 	return hotelsDto, nil
 }
 
-func (s *hotelService) InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiError) {
+func (s *hotelService) InsertHotel(hotelDto dto.HandleHotelDto) (dto.HotelDto, e.ApiError) {
 
 	var hotel model.Hotel
+	var user model.User
+	var response dto.HotelDto
+
+	user = userClient.GetUserById(hotelDto.UserId)
+
+	if user.Type == false {
+		return response, e.NewBadRequestApiError("El usuario no es administrador")
+	}
 
 	hotel.HotelName = hotelDto.HotelName
 	hotel.HotelDescription = hotelDto.HotelDescription
@@ -78,18 +86,43 @@ func (s *hotelService) InsertHotel(hotelDto dto.HotelDto) (dto.HotelDto, e.ApiEr
 
 	hotelDto.Id = hotel.Id
 
-	return hotelDto, nil
+	return response, nil
 }
 
-func (s *hotelService) UpdateHotel(updateHotelDto dto.UpdateHotelDto) (dto.HotelDto, e.ApiError) {
+func (s *hotelService) UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.HotelDto, e.ApiError) {
 
 	var hotel model.Hotel
+	var savedHotel dto.HotelDto
 
-	hotel.HotelName = updateHotelDto.HotelName
-	hotel.HotelDescription = updateHotelDto.HotelDescription
-	hotel.Address = updateHotelDto.Address
-	hotel.Rooms = updateHotelDto.Rooms
-	hotel.ImageURL = updateHotelDto.ImageURL
+	savedHotel, _ = s.GetHotelById(updateHotelDto.Id)
+
+	hotel.HotelName = savedHotel.HotelName
+	hotel.HotelDescription = savedHotel.HotelDescription
+	hotel.Address = savedHotel.Address
+	hotel.Rooms = savedHotel.Rooms
+	hotel.ImageURL = savedHotel.ImageURL
+
+	if len(updateHotelDto.HotelName) != 0 {
+		log.Debug("Nombre del hotel", updateHotelDto)
+		hotel.HotelName = updateHotelDto.HotelName
+	}
+
+	if len(updateHotelDto.HotelDescription) != 0 {
+		hotel.HotelDescription = updateHotelDto.HotelDescription
+	}
+
+	if len(updateHotelDto.Address) != 0 {
+		hotel.Address = updateHotelDto.Address
+	}
+
+	if updateHotelDto.Rooms != 0 {
+		hotel.Rooms = updateHotelDto.Rooms
+	}
+
+	if len(updateHotelDto.ImageURL) != 0 {
+		hotel.ImageURL = updateHotelDto.ImageURL
+	}
+	
 	hotel.Id = updateHotelDto.Id
 
 	var hotelDto dto.HotelDto

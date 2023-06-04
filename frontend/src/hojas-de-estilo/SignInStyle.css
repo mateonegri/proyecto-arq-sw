@@ -1,5 +1,6 @@
 .Page {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -13,6 +14,7 @@
   }
 
 .SignInForm {
+    position: relative;
     background-color: white;
     padding: 0px 60px;
     border-radius: 10px

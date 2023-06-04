@@ -110,9 +110,31 @@ h1 {
     font-size: large;
 }
 
-.buttonAdmin {
-    line-height: 12px;
-    width: 18px;
+.DeleteButton {
+    width: 15rem;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    margin-right: 3px;
+}
+
+.AdminHotelOptions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.AddHotelButton {
+    width: 15rem;
     height: 50px;
     padding: 10px;
     border: none;
@@ -120,13 +142,10 @@ h1 {
     color: white;
     border-radius: 5px;
     font-weight: bold;
-    font-size: 8pt;
+    font-size: 18px;
     cursor: pointer;
-    margin-top: 1px;
-    margin-right: 2px;
-    position:absolute;
-    top:15rem;
-    right:5rem;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    margin-left: 3px;
 }
-
 

@@ -108,6 +108,7 @@ export const HotelDetalle = ( hotel_id ) => {
                 console.log("Booking added");
 
                 notifyBooked();
+                goto("/")
 
 
                 return response.json();

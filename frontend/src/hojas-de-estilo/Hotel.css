@@ -50,7 +50,7 @@
     padding: 0 1rem;
     margin: 0;
     /*overflow: hidden;*/
-    /* position: fixed;*/
+    /*position: sticky; */
     top: 0;
     width: 100%;
 

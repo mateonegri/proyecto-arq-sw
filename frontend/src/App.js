@@ -7,13 +7,13 @@ import {HotelDetalle} from "./paginas/HotelDetalle";
 import { SignIn } from './paginas/SignIn';
 import {MisReservas} from './paginas/MisReservas';
 import {ReservasAdmin} from './paginas/ReservasAdmin';
-
 import RutasPrivadas from "./Rutas/RutasPrivadas";
 import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { EditarHotel } from './paginas/EditarHotel'
+import { InsertarHotel } from './paginas/InsertarHotel'
 
 function App() {
 
@@ -28,9 +28,9 @@ function App() {
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
                 <Route path='/hotel/edit/:id' element={<EditarHotel />} />
-                <RutasPrivadas>
-                    <Route path='/misreservas' element={<MisReservas />} />
-                </RutasPrivadas>
+                <Route path='/misreservas' element={<MisReservas />} />
+                <Route path='/hotel/insert' element={<InsertarHotel />} />
+              
             </Routes>
             </BrowserRouter>
         </div>
