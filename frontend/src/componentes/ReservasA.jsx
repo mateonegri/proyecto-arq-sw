@@ -10,29 +10,28 @@ import Typography from '@mui/material/Typography';
 import Cookies from "universal-cookie";
 
 const ReservasA = ({ id_booking,  booking_startdate, booking_enddate, booking_username, booking_hotelname, booking_hoteladdress }) => {
-    
+
+
     return (
        /*  <div className='reservas'>
             <h1>Reserva en hotel: {booking_hotelname}</h1>
             <p>Realizada por {booking_username} desde la fecha {booking_startdate} hasta {booking_enddate}</p>
         </div> */
-
-        <Card sx={{width:'92%'}} className="cartaHotel">
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            Reserva en hotel: {booking_hotelname}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-          {/* <p>{hotel_address}</p> */}
-          <p>Esta reserva fue realizada por {booking_username}</p>
-          <p>Fecha de inicio de reserva: {booking_startdate}</p>
-          <p>Fecha de final de reserva: {booking_enddate}</p>
-          </Typography>
-        </CardContent>
-      </Card>
-
-
-
+        <>
+            <Card sx={{width:'92%'}} className="cartaHotel">
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        Reserva en hotel: {booking_hotelname}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {/* <p>{hotel_address}</p> */}
+                        <p>Esta reserva fue realizada por {booking_username}</p>
+                        <p>Fecha de inicio de reserva: {booking_startdate}</p>
+                        <p>Fecha de final de reserva: {booking_enddate}</p>
+                    </Typography>
+                </CardContent>
+            </Card>
+        </>
     )
 
 }

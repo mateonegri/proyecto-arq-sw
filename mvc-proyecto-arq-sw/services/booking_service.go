@@ -17,6 +17,8 @@ type bookingServiceInterface interface {
 	GetBookings() (dto.BookingsDetailDto, e.ApiError)
 	InsertBooking(bookingDto dto.BookingDto) (dto.BookingDto, e.ApiError)
 	GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError)
+	GetBookingsByUserId(id int) (dto.BookingsDetailDto, e.ApiError)
+	GetBookingByUserId(id int) (dto.BookingDetailDto, e.ApiError)
 }
 
 var (
@@ -154,4 +156,49 @@ func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, id
 
 	return responseDto, nil
 
+}
+
+func (s *bookingService) GetBookingByUserId(id int) (dto.BookingDetailDto, e.ApiError) {
+	var booking model.Booking = bookingClient.GetBookingByUserId(id)
+	var bookingDto dto.BookingDetailDto
+
+	if booking.Id == 0 {
+		return bookingDto, e.NewBadRequestApiError("Booking not found")
+	}
+
+	/*	bookingDto.StartDay = booking.StartDay
+		bookingDto.StartMonth = booking.StartMonth
+		bookingDto.StartYear = booking.StartYear
+		bookingDto.EndDay = booking.EndDay
+	*/
+	bookingDto.Id = booking.Id
+	bookingDto.StartDate = booking.StartDate
+	bookingDto.EndDate = booking.EndDate
+	bookingDto.UserId = booking.UserId
+	bookingDto.Username = booking.User.UserName
+	bookingDto.HotelId = booking.HotelId
+	bookingDto.HotelName = booking.Hotel.HotelName
+	bookingDto.Address = booking.Hotel.Address
+
+	return bookingDto, nil
+}
+
+func (s *bookingService) GetBookingsByUserId(id int) (dto.BookingsDetailDto, e.ApiError) {
+
+	//var bookings model.Bookings = bookingClient.GetBookingsByUserId(id)
+	var bookings model.Bookings = bookingClient.GetBookings()
+	var bookingsDto dto.BookingsDetailDto
+
+	for _, booking := range bookings {
+		var bookingDto dto.BookingDetailDto
+
+		if booking.UserId == id {
+
+			bookingDto, _ = s.GetBookingById(booking.Id)
+			bookingsDto = append(bookingsDto, bookingDto)
+
+		}
+	}
+
+	return bookingsDto, nil
 }

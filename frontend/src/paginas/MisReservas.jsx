@@ -7,7 +7,7 @@ function goto(path){
     window.location = window.location.origin + path
 }
 
-const bookings = `http://localhost:8090/booking/${(Cookie.get("user_id"))}`
+const bookings = `http://localhost:8090/booking/user/${Cookie.get("user_id")}`
 export const MisReservas=() => {
 
    if (Cookie.get("user_type") === "true"){
@@ -37,7 +37,7 @@ export const MisReservas=() => {
 
             <h1>Estas son tus reservas:</h1>
             {
-                booking.length ? booking.map((booking) => <ReservasA key={booking.booking_id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ):null
+                booking.length ? booking.map((booking) => <ReservasA key={booking.booking_id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ) : null
             }
         </div>
         </>
