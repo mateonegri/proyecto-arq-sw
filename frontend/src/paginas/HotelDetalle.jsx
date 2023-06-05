@@ -8,6 +8,14 @@ import FormInput from "../componentes/FormInput.jsx";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Cookies from "universal-cookie";
+import { CardContent, CardMedia } from '@mui/material';
+
+ import Card from '@mui/material/Card';
+// import CardActions from '@mui/material/CardActions';
+ //import CardContent from '@mui/material/CardContent';
+ //import CardMedia from '@mui/material/CardMedia';
+ //import Button from '@mui/material/Button';
+ import Typography from '@mui/material/Typography';
 
 const Cookie = new Cookies();
 function getFormattedDate(target) {
@@ -108,7 +116,6 @@ export const HotelDetalle = ( hotel_id ) => {
                 console.log("Booking added");
 
                 notifyBooked();
-                goto("/")
 
 
                 return response.json();
@@ -194,10 +201,6 @@ export const HotelDetalle = ( hotel_id ) => {
         }
     }
 
-
-
-
-
     return (
         <div className='contenedor-principal'>
 
@@ -220,7 +223,7 @@ export const HotelDetalle = ( hotel_id ) => {
                         <p>{hotel?.hotel_description}</p>
 
                         <div className='reserva'>
-                            <form className= 'reservaForm' onSubmit={handleSubmit}>
+                            <form className= 'reservaForm' onSubmit={handleSubmit} >
                                 <h1>Cuando nos quiere visitar?</h1>
                                 {inputs.map((input ) => (
                                     <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
@@ -233,6 +236,7 @@ export const HotelDetalle = ( hotel_id ) => {
                 </CardContent>
             </Card>
         </div>
+
     )
 }
 
