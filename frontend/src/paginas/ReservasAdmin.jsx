@@ -26,8 +26,6 @@ export const ReservasAdmin = () => {
                     booking.length ? booking.map((booking) => <ReservasA key={booking.id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ):null
                 }
 
-
-
         </div>
     )
 }
