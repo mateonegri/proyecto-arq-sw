@@ -76,6 +76,20 @@ const notifyBadDate = () => {
     })
 }
 
+const notifyBadDate2 = () => {
+    toast.error("No puedes seleccionar una fecha pasada!", {
+        pauseOnHover: false,
+        autoClose: 3000,
+    })
+}
+
+const notifyBadDate3 = () => {
+    toast.error("Debes seleccionar minimo una noche de estadia!", {
+        pauseOnHover: false,
+        autoClose: 3000,
+    })
+}
+
 
 function goto(path) {
     setTimeout(()=> {
@@ -150,7 +164,6 @@ export const HotelDetalle = ( hotel_id ) => {
                 id:1,
                 name:"start_date",
                 type:"date",
-                min: getFormattedDate(new Date()),
                 placeholder:"Fecha Inicio",
                 errorMessage:"La fecha de inicio no puede ser nula!",
                 label:"Fecha Inicio",
@@ -160,7 +173,6 @@ export const HotelDetalle = ( hotel_id ) => {
                 id:2,
                 name:"end_date",
                 type:"date",
-                min: getFormattedDate(new Date()),
                 placeholder:"Fecha Fin",
                 errorMessage:"La fecha de fin no puede ser nula!",
                 label:"Fecha Fin",
@@ -180,6 +192,7 @@ export const HotelDetalle = ( hotel_id ) => {
         console.log(Cookie.get("user_id"))
         console.log(jsonData)
 
+
         const handleSubmit = async (e) => {
             e.preventDefault();
 
@@ -193,13 +206,21 @@ export const HotelDetalle = ( hotel_id ) => {
         }
 
         console.log(values);
-
+    let hoy = (getFormattedDate(new Date))
+    console.log(hoy)
     function chequearfecha() {
         if (values.end_date < values.start_date) {
             notifyBadDate();
             return 0
+        // } else if ( values.start_date < hoy ) {
+        //     notifyBadDate2();
+        //      return 0
+        } else if (values.start_date == values.end_date) {
+            notifyBadDate3();
+            return 0
         }
     }
+
 
     return (
         <div className='contenedor-principal'>
@@ -223,18 +244,19 @@ export const HotelDetalle = ( hotel_id ) => {
                         <p>{hotel?.hotel_description}</p>
 
                         <div className='reserva'>
-                            <form className= 'reservaForm' onSubmit={handleSubmit} >
+                            <form className= 'reservaForm'  >
                                 <h1>Cuando nos quiere visitar?</h1>
                                 {inputs.map((input ) => (
                                     <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
 
                                 ))}
-                                <button className="reservar-button" >RESERVAR</button>
+                                <button className="reservar-button" onClick={handleSubmit} >RESERVAR</button>
                             </form>
                         </div>
                     </Typography>
                 </CardContent>
             </Card>
+            <ToastContainer/>
         </div>
 
     )
