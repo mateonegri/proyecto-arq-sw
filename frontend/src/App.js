@@ -12,12 +12,14 @@ import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import { EditarHotel } from './paginas/EditarHotel'
+import { InsertarHotel } from './paginas/InsertarHotel'
 
 function App() {
 
 
     return (
-        <div>
+        <div className='App'>
             <BrowserRouter>
             <Routes>
                 <Route path='' element={<Home />}/>
@@ -25,6 +27,10 @@ function App() {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/signin' element={<SignIn />}/>
                 <Route path='/home/hotel/:id' element={<HotelDetalle />} />
+                <Route path='/hotel/edit/:id' element={<EditarHotel />} />
+                <Route path='/misreservas' element={<MisReservas />} />
+                <Route path='/hotel/insert' element={<InsertarHotel />} />
+              
                 <Route path='/admin/reservas' element={<ReservasAdmin />} />
                 <Route path='/misreservas' element={<MisReservas />} />
 
