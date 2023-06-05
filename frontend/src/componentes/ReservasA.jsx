@@ -13,10 +13,7 @@ const ReservasA = ({ id_booking,  booking_startdate, booking_enddate, booking_us
 
 
     return (
-       /*  <div className='reservas'>
-            <h1>Reserva en hotel: {booking_hotelname}</h1>
-            <p>Realizada por {booking_username} desde la fecha {booking_startdate} hasta {booking_enddate}</p>
-        </div> */
+
         <>
             <Card sx={{width:'92%'}} className="cartaHotel">
                 <CardContent>

@@ -155,7 +155,7 @@ export const HotelDetalle = ( hotel_id ) => {
                 type:"date",
                 min: getFormattedDate(new Date()),
                 placeholder:"Fecha Fin",
-                errorMessage:"La fecha de fin no puede ser menor a la de inicio!",
+                errorMessage:"La fecha de fin no puede ser nula!",
                 label:"Fecha Fin",
                 required:true,
             }

@@ -9,3 +9,16 @@
     background-color: lightblue;
     box-shadow: 0 3px 13px 1px rgb(0 0 0 / 9%);
 }
+
+.contenedor-reservas {
+    padding-top: 50px;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.p {
+    color:gray;
+
+}

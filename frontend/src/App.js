@@ -7,7 +7,6 @@ import {HotelDetalle} from "./paginas/HotelDetalle";
 import { SignIn } from './paginas/SignIn';
 import {MisReservas} from './paginas/MisReservas';
 import {ReservasAdmin} from './paginas/ReservasAdmin';
-import RutasPrivadas from "./Rutas/RutasPrivadas";
 import Reserva from './paginas/Reserva'
 import {useEffect} from "react";
 import { ToastContainer, toast } from "react-toastify";
