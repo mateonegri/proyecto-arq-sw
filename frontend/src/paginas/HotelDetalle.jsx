@@ -202,19 +202,26 @@ export const HotelDetalle = ( hotel_id ) => {
         <div className='contenedor-principal'>
 
             <Navbar />
-            <div className='contenedor-hoteldetalle'>
+            <Card sx={{width:'92%'}} className="hotelDetalle">
+                <CardMedia
+                    component="img"
+                    alt={hotel?.hotel_name}
+                    heifht="140"
+                    image = {hotel?.hotel_image}
+                />
 
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {hotel?.hotel_name}
+                        {hotel?.hotel_image}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        <p> Esta Ubicado en: {hotel?.hotel_address}</p>
+                        <p>{hotel?.hotel_description}</p>
 
-                <div className='nombre'>
-                    <h1>{hotel?.hotel_name}</h1><br/>
-                </div>
-                <div className='hoteles-detalle'>
-                    <div className='descripcion'>
-                    <p>Esta ubicado en {hotel?.hotel_address}</p>
-                    <p>{hotel?.hotel_description}</p>
                         <div className='reserva'>
                             <form className= 'reservaForm' onSubmit={handleSubmit}>
-                                <h1>Elija la fecha en la que le gustaria ir:</h1>
+                                <h1>Cuando nos quiere visitar?</h1>
                                 {inputs.map((input ) => (
                                     <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
 
@@ -222,10 +229,9 @@ export const HotelDetalle = ( hotel_id ) => {
                                 <button className="reservar-button" >RESERVAR</button>
                             </form>
                         </div>
-                        <ToastContainer />
-                    </div>
-                    </div>
-                </div>
+                    </Typography>
+                </CardContent>
+            </Card>
         </div>
     )
 }
