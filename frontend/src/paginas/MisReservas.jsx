@@ -27,7 +27,8 @@ function goto(path){
 
 }
 
-const bookings = `http://localhost:8090/booking/user/${Cookie.get("user_id")}`
+const bookingsURL = `http://localhost:8090/booking/user/${Cookie.get("user_id")}`
+
 export const MisReservas=() => {
 
    if (Cookie.get("user_type") === "true"){
@@ -38,33 +39,63 @@ export const MisReservas=() => {
         goto("/login")
     }
 
+    const [searchResults, setSearchResults] = useState([]);
+
     const [booking, setBooking] =  useState([]);
+
     const getBooking = async () => {
-        const response = await fetch(bookings);
+        const response = await fetch(bookingsURL);
         const booking = await response.json();
         return booking;
     }
     useEffect(() => {
-        getBooking().then ((booking) => setBooking(booking));
+        getBooking().then (booking => {
+            setBooking(booking)
+            console.log(booking)
+            setSearchResults(booking)
+        });
     },[])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
+    const handleSearchChange = (e) => {
+        if (!e.target.value){
+            return setSearchResults(booking)
+        } 
+
+        const resultArray = booking.filter(booking => booking.hotel_name.includes(e.
+            target.value))
+            
+        setSearchResults(resultArray)
+    }
+
 
     return (
 
         <>
-            <Navbar/>
-
+        <Navbar/>
+        <div className="inputReservas">
+            <form onSubmit={handleSubmit}>
+                <span>Busqueda por hotel</span>
+                <input type="search" 
+                    id = "search"
+                    className="searchHotel" 
+                    placeholder="Busqueda por hotel" 
+                    onChange={handleSearchChange} />
+                <button className="reservar-button">Buscar</button>
+            </form>
+        </div>
         <div className='contenedor-principal'>
-
-        <div className='contenedor-reservas'>
-
             <h1>Tus reservas:</h1>
             {
-                booking?.length ? booking.map((booking) => <ReservasA key={booking.booking_id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ): <p>Aun no tienes ninguna</p>
+                searchResults?.length ? searchResults.map(searchResults => <ReservasA key={searchResults.booking_id} id_booking={searchResults.booking_id} booking_startdate={searchResults.start_date} booking_enddate={searchResults.end_date}  booking_username={searchResults.user_name} booking_hotelname={searchResults.hotel_name} booking_hoteladdress={searchResults.hotel_address}/>
+                 ): <p>Aun no tienes ninguna reserva</p>
             }
         </div>
-        </div>
-            <ToastContainer/>
-            </>
+        <ToastContainer/>
+        </>
     )
 
 }

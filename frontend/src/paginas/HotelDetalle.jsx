@@ -18,6 +18,7 @@ import { CardContent, CardMedia } from '@mui/material';
  import Typography from '@mui/material/Typography';
 
 const Cookie = new Cookies();
+
 function getFormattedDate(target) {
     let year = target.getFullYear()
     let month = target.getMonth()
@@ -29,18 +30,18 @@ function getFormattedDate(target) {
 
 function convertirFecha(fecha) {
     let fechaString = fecha.toString()
-    console.log(fechaString)
+    
 
     let year = fechaString.substring(0,4)
-    console.log(year)
+    
     let month = fechaString.substring(5,7)
-    console.log(month)
+    
     let day = fechaString.substring(8,10)
 
     let yearPlusMonth = year.concat("",month)
     let fechaStringFinal = yearPlusMonth.concat("",day)
 
-    console.log(fechaStringFinal)
+    
 
     var fechaEntero = Number(fechaStringFinal)
 
@@ -167,6 +168,7 @@ export const HotelDetalle = ( hotel_id ) => {
                 placeholder:"Fecha Inicio",
                 errorMessage:"La fecha de inicio no puede ser nula!",
                 label:"Fecha Inicio",
+                min: new Date().toISOString().split("T")[0] ,
                 required:true,
             },
             {
@@ -176,7 +178,9 @@ export const HotelDetalle = ( hotel_id ) => {
                 placeholder:"Fecha Fin",
                 errorMessage:"La fecha de fin no puede ser nula!",
                 label:"Fecha Fin",
-                required:true,
+                disabled: values.start_date === "" ? true: false,
+                min : values.start_date ? new Date(values.start_date).toISOString().split("T")[0]: "" ,
+                required: true,
             }
 
         ]
@@ -205,9 +209,9 @@ export const HotelDetalle = ( hotel_id ) => {
             setValues({...values, [e.target.name]: e.target.value})
         }
 
-        console.log(values);
+
     let hoy = (getFormattedDate(new Date))
-    console.log(hoy)
+  
     function chequearfecha() {
         if (values.end_date < values.start_date) {
             notifyBadDate();
@@ -221,7 +225,6 @@ export const HotelDetalle = ( hotel_id ) => {
         }
     }
 
-
     return (
         <div className='contenedor-principal'>
 
@@ -230,14 +233,13 @@ export const HotelDetalle = ( hotel_id ) => {
                 <CardMedia
                     component="img"
                     alt={hotel?.hotel_name}
-                    heifht="140"
-                    image = {hotel?.hotel_image}
+                    height="300"
+                    image = {hotel?.hotel_image_url}
                 />
 
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {hotel?.hotel_name}
-                        {hotel?.hotel_image}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <p> Esta Ubicado en: {hotel?.hotel_address}</p>

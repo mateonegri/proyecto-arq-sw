@@ -36,7 +36,6 @@ const Cookie = new Cookies();
     )
 
 
-    console.log(hotel_image)
         return (
         <Card sx={{width:'92%'}} className="cartaHotel">
           <CardMedia

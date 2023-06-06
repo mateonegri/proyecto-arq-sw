@@ -9,6 +9,7 @@ const bookings = "http://localhost:8090/booking"
 
 export const ReservasAdmin = () => {
     const [booking, setBooking] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const getBooking = async () => {
         const response = await fetch(bookings);
@@ -20,7 +21,10 @@ export const ReservasAdmin = () => {
 
 
     useEffect(() => {
-        getBooking().then ((booking) => setBooking(booking));
+        getBooking().then ((booking) => {
+            setBooking(booking)
+            setSearchResults(booking)
+        });
     },[])
 
     function numberToDate(input) {
@@ -36,28 +40,40 @@ export const ReservasAdmin = () => {
         return date
     }
 
-    const handleSelect = (date) =>{
-        console.log(date); 
-      };
-    
-      const selectionRange = {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-      }
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
+    const handleSearchChange = (e) => {
+        if (!e.target.value) return setSearchResults(booking)
+
+        const resultArray = booking.filter(booking => booking.hotel_name.includes(e.
+            target.value))
+            
+        setSearchResults(resultArray)
+    }
     
 
     return (
-        <div className='contenedor-principal'>
-            <Navbar />
-            <div>
-                <input type="date" placeholder="Fecha de inicio:" label="Fecha de inicio:" className='inputFechaReservas'></input>
-                <input type="date" placeholder="Fecha de fin:" label="Fecha de fin:" className='inputFechaReservas'></input>
-            </div>
-
-                {
-                    booking.length ? booking.map((booking) => <ReservasA key={booking.id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ):null
-                }
+        <>
+        <Navbar />
+        <div className="inputReservas">
+            <form onSubmit={handleSubmit}>
+                <span>Busqueda por hotel</span>
+                <input type="search" 
+                    id = "search"
+                    className="searchHotel" 
+                    placeholder="Busqueda por hotel" 
+                    onChange={handleSearchChange} />
+                <button className="reservar-button">Buscar</button>
+            </form>
         </div>
+        <div className = "contenedor-principal">
+            {
+                searchResults?.length ? searchResults.map(searchResults => <ReservasA key={searchResults.booking_id} id_booking={searchResults.booking_id} booking_startdate={searchResults.start_date} booking_enddate={searchResults.end_date}  booking_username={searchResults.user_name} booking_hotelname={searchResults.hotel_name} booking_hoteladdress={searchResults.hotel_address}/>
+                 ): <p>Aun no tienes ninguna</p>
+            }
+        </div>
+        </>
     )
 }
