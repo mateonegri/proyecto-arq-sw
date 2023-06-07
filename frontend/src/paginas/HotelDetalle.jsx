@@ -233,7 +233,7 @@ export const HotelDetalle = ( hotel_id ) => {
                 <CardMedia
                     component="img"
                     alt={hotel?.hotel_name}
-                    height="300"
+                    height="560"
                     image = {hotel?.hotel_image_url}
                 />
 

@@ -4,7 +4,10 @@ import Navbar from "../componentes/Navbar";
 import ReservasA from "../componentes/ReservasA";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
+import FormInput from "../componentes/FormInput.jsx";
+
 const Cookie = new Cookies();
+
 const notifyNotLoggedIn = () => {
     toast.error("Recuerda que antes debes loggearte!", {
         pauseOnHover: false,
@@ -25,6 +28,22 @@ function goto(path){
         window.location = window.location.origin + path
     },2000)
 
+}
+
+function convertirFecha(fecha) {
+    let fechaString = fecha.toString()
+    
+
+    let year = fechaString.substring(0,4)
+    
+    let month = fechaString.substring(5,7)
+    
+    let day = fechaString.substring(8,10)
+
+    let yearPlusMonth = year.concat("",month)
+    let fechaStringFinal = yearPlusMonth.concat("",day)
+
+    return fechaStringFinal
 }
 
 const bookingsURL = `http://localhost:8090/booking/user/${Cookie.get("user_id")}`
@@ -56,20 +75,70 @@ export const MisReservas=() => {
         });
     },[])
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-    }
+    const [values, setValues] = useState({
+        "search": "",
+        "date": "",
+    })
 
-    const handleSearchChange = (e) => {
-        if (!e.target.value){
+    const inputs = [
+        {
+            id: 1,
+            name: "search",
+            type: "search",
+            placeholder: "Busqueda por hotel" ,
+        },
+        {
+            id: 2,
+            name: "date",
+            type: "date",
+            label:"Busqueda por fecha",
+            placeholder: "Busqueda por fecha",
+        }
+    ]
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        if (!values.search && !values.date){
             return setSearchResults(booking)
         } 
 
-        const resultArray = booking.filter(booking => booking.hotel_name.includes(e.
-            target.value))
-            
+        if (!values.date) {
+
+            const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search))
+
+            return setSearchResults(resultArray)
+        }
+
+        if (!values.search) {
+        
+            let valorFecha = convertirFecha(values.date)
+
+            const resultArray = booking.filter( function (booking) {
+                return Number(booking.start_date) <= Number(valorFecha)
+                && Number(booking.end_date) >= Number(valorFecha)
+            } )
+
+            return setSearchResults(resultArray)
+        }
+
+        let valorFecha = convertirFecha(values.date)
+
+        const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search)
+        && Number(booking.start_date) <= Number(valorFecha)
+        && Number(booking.end_date) >= Number(valorFecha))
+
+        console.log(resultArray)
+        
         setSearchResults(resultArray)
     }
+
+    const onChange = (e) => {
+        setValues({...values, [e.target.name]: e.target.value})
+    }
+    
+
 
 
     return (
@@ -77,15 +146,12 @@ export const MisReservas=() => {
         <>
         <Navbar/>
         <div className="inputReservas">
-            <form onSubmit={handleSubmit}>
-                <span>Busqueda por hotel</span>
-                <input type="search" 
-                    id = "search"
-                    className="searchHotel" 
-                    placeholder="Busqueda por hotel" 
-                    onChange={handleSearchChange} />
-                <button className="reservar-button">Buscar</button>
-            </form>
+        <form >
+            {inputs.map((input ) => (
+            <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
+            ))}
+            <button className="reservar-button" onClick={handleSubmit} >Buscar</button>
+        </form>
         </div>
         <div className='contenedor-principal'>
             <h1>Tus reservas:</h1>

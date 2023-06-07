@@ -4,8 +4,25 @@ import ReservasA from "../componentes/ReservasA";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
+import FormInput from "../componentes/FormInput.jsx";
 
 const bookings = "http://localhost:8090/booking"
+
+function convertirFecha(fecha) {
+    let fechaString = fecha.toString()
+    
+
+    let year = fechaString.substring(0,4)
+    
+    let month = fechaString.substring(5,7)
+    
+    let day = fechaString.substring(8,10)
+
+    let yearPlusMonth = year.concat("",month)
+    let fechaStringFinal = yearPlusMonth.concat("",day)
+
+    return fechaStringFinal
+}
 
 export const ReservasAdmin = () => {
     const [booking, setBooking] = useState([]);
@@ -27,46 +44,81 @@ export const ReservasAdmin = () => {
         });
     },[])
 
-    function numberToDate(input) {
+    const [values, setValues] = useState({
+        "search": "",
+        "date": "",
+    })
 
-        let inputString = input.toString()
-        
-        let year = Number(String(input).substring(0,4), 10)
-        let month = Number(String(input).substring(5,7), 10)
-        let day = Number(String(input).substring(8, 10), 10)
-
-        let date = new Date(year, month - 1, day)
-
-        return date
-    }
+    const inputs = [
+        {
+            id: 1,
+            name: "search",
+            type: "search",
+            placeholder: "Busqueda por hotel" ,
+        },
+        {
+            id: 2,
+            name: "date",
+            type: "date",
+            label:"Busqueda por fecha",
+            placeholder: "Busqueda por fecha",
+        }
+    ]
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-    }
 
-    const handleSearchChange = (e) => {
-        if (!e.target.value) return setSearchResults(booking)
+        e.preventDefault();
 
-        const resultArray = booking.filter(booking => booking.hotel_name.includes(e.
-            target.value))
-            
+        if (!values.search && !values.date){
+            return setSearchResults(booking)
+        } 
+
+        if (!values.date) {
+
+            const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search))
+
+            return setSearchResults(resultArray)
+        }
+
+        if (!values.search) {
+        
+            let valorFecha = convertirFecha(values.date)
+
+            const resultArray = booking.filter( function (booking) {
+                return Number(booking.start_date) <= Number(valorFecha)
+                && Number(booking.end_date) >= Number(valorFecha)
+            } )
+
+            return setSearchResults(resultArray)
+        }
+
+        let valorFecha = convertirFecha(values.date)
+
+        const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search)
+        && Number(booking.start_date) <= Number(valorFecha)
+        && Number(booking.end_date) >= Number(valorFecha))
+
+        console.log(resultArray)
+        
         setSearchResults(resultArray)
     }
+
+    const onChange = (e) => {
+        setValues({...values, [e.target.name]: e.target.value})
+    }
+    
     
 
     return (
         <>
         <Navbar />
         <div className="inputReservas">
-            <form onSubmit={handleSubmit}>
-                <span>Busqueda por hotel</span>
-                <input type="search" 
-                    id = "search"
-                    className="searchHotel" 
-                    placeholder="Busqueda por hotel" 
-                    onChange={handleSearchChange} />
-                <button className="reservar-button">Buscar</button>
-            </form>
+        <form >
+            {inputs.map((input ) => (
+            <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
+            ))}
+            <button className="reservar-button" onClick={handleSubmit} >Buscar</button>
+        </form>
         </div>
         <div className = "contenedor-principal">
             {

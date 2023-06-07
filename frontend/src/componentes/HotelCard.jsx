@@ -41,7 +41,7 @@ const Cookie = new Cookies();
           <CardMedia
           component="img"
           alt={hotel_name}
-          height="140"
+          height="380"
           image = {hotel_image}
           
           />
