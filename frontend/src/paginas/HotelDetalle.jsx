@@ -9,7 +9,6 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import Cookies from "universal-cookie";
 import { CardContent, CardMedia } from '@mui/material';
-
  import Card from '@mui/material/Card';
 // import CardActions from '@mui/material/CardActions';
  //import CardContent from '@mui/material/CardContent';
@@ -199,22 +198,27 @@ export const HotelDetalle = ( hotel_id ) => {
             if (chequearfecha() !== 0) {
                 insertBooking(jsonData)
             }
+
+
+
+
+
+
         }
 
         const onChange = (e) => {
             setValues({...values, [e.target.name]: e.target.value})
         }
-
-        console.log(values);
+    console.log(values);
     let hoy = (getFormattedDate(new Date))
     console.log(hoy)
     function chequearfecha() {
         if (values.end_date < values.start_date) {
             notifyBadDate();
             return 0
-        // } else if ( values.start_date < hoy ) {
-        //     notifyBadDate2();
-        //      return 0
+         // } else if ( values.start_date < (getFormattedDate(new Date)) ) {
+         //     notifyBadDate2();
+         //      return 0
         } else if (values.start_date == values.end_date) {
             notifyBadDate3();
             return 0

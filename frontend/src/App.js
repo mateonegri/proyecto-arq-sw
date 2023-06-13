@@ -29,7 +29,7 @@ function App() {
                 <Route path='/hotel/edit/:id' element={<EditarHotel />} />
                 <Route path='/misreservas' element={<MisReservas />} />
                 <Route path='/hotel/insert' element={<InsertarHotel />} />
-              
+
                 <Route path='/admin/reservas' element={<ReservasAdmin />} />
                 <Route path='/misreservas' element={<MisReservas />} />
 

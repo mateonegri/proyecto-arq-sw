@@ -21,9 +21,7 @@ export const Home = () => {
             <Navbar />
             <div className='contenedor-principal'>
                 <Hotels />
-
             </div>
-
             </div>
     )
 }
