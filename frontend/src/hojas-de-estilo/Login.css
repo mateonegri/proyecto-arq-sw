@@ -11,6 +11,7 @@
   background-size: cover;
   background-position: center;
   text-align: center;
+  position: relative;
 }
   
   input[type="text"],
@@ -84,7 +85,7 @@
 
   .logout-button {
     text-align: center;
-    margin-top: 250px;
+    margin-top: 25rem;
     position: relative;
   }
 

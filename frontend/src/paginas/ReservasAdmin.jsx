@@ -4,11 +4,29 @@ import ReservasA from "../componentes/ReservasA";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import { DateRangePicker } from 'react-date-range';
+import FormInput from "../componentes/FormInput.jsx";
 
 const bookings = "http://localhost:8090/booking"
 
+function convertirFecha(fecha) {
+    let fechaString = fecha.toString()
+    
+
+    let year = fechaString.substring(0,4)
+    
+    let month = fechaString.substring(5,7)
+    
+    let day = fechaString.substring(8,10)
+
+    let yearPlusMonth = year.concat("",month)
+    let fechaStringFinal = yearPlusMonth.concat("",day)
+
+    return fechaStringFinal
+}
+
 export const ReservasAdmin = () => {
     const [booking, setBooking] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
     const getBooking = async () => {
         const response = await fetch(bookings);
@@ -20,44 +38,94 @@ export const ReservasAdmin = () => {
 
 
     useEffect(() => {
-        getBooking().then ((booking) => setBooking(booking));
+        getBooking().then ((booking) => {
+            setBooking(booking)
+            setSearchResults(booking)
+        });
     },[])
 
-    function numberToDate(input) {
+    const [values, setValues] = useState({
+        "search": "",
+        "date": "",
+    })
 
-        let inputString = input.toString()
+    const inputs = [
+        {
+            id: 1,
+            name: "search",
+            type: "search",
+            placeholder: "Busqueda por hotel" ,
+        },
+        {
+            id: 2,
+            name: "date",
+            type: "date",
+            label:"Busqueda por fecha",
+            placeholder: "Busqueda por fecha",
+        }
+    ]
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        if (!values.search && !values.date){
+            return setSearchResults(booking)
+        } 
+
+        if (!values.date) {
+
+            const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search))
+
+            return setSearchResults(resultArray)
+        }
+
+        if (!values.search) {
         
-        let year = Number(String(input).substring(0,4), 10)
-        let month = Number(String(input).substring(5,7), 10)
-        let day = Number(String(input).substring(8, 10), 10)
+            let valorFecha = convertirFecha(values.date)
 
-        let date = new Date(year, month - 1, day)
+            const resultArray = booking.filter( function (booking) {
+                return Number(booking.start_date) <= Number(valorFecha)
+                && Number(booking.end_date) >= Number(valorFecha)
+            } )
 
-        return date
+            return setSearchResults(resultArray)
+        }
+
+        let valorFecha = convertirFecha(values.date)
+
+        const resultArray = booking.filter(booking => booking.hotel_name.includes(values.search)
+        && Number(booking.start_date) <= Number(valorFecha)
+        && Number(booking.end_date) >= Number(valorFecha))
+
+        console.log(resultArray)
+        
+        setSearchResults(resultArray)
     }
 
-    const handleSelect = (date) =>{
-        console.log(date); 
-      };
+    const onChange = (e) => {
+        setValues({...values, [e.target.name]: e.target.value})
+    }
     
-      const selectionRange = {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-      }
     
 
     return (
-        <div className='contenedor-principal'>
-            <Navbar />
-            <div>
-                <input type="date" placeholder="Fecha de inicio:" label="Fecha de inicio:" className='inputFechaReservas'></input>
-                <input type="date" placeholder="Fecha de fin:" label="Fecha de fin:" className='inputFechaReservas'></input>
-            </div>
-
-                {
-                    booking.length ? booking.map((booking) => <ReservasA key={booking.id} id_booking={booking.booking_id} booking_startdate={booking.start_date} booking_enddate={booking.end_date}  booking_username={booking.user_name} booking_hotelname={booking.hotel_name} booking_hoteladdress={booking.hotel_address}/> ):null
-                }
+        <>
+        <Navbar />
+        <div className="inputReservas">
+        <form >
+            {inputs.map((input ) => (
+            <FormInput key={input.id} {...input} value={values[input.name]}  onChange={onChange}/>
+            ))}
+            <button className="reservar-button" onClick={handleSubmit} >Buscar</button>
+        </form>
         </div>
+        <div className = "contenedor-principal">
+            {
+                searchResults?.length ? searchResults.map(searchResults => <ReservasA key={searchResults.booking_id} id_booking={searchResults.booking_id} booking_startdate={searchResults.start_date} booking_enddate={searchResults.end_date}  booking_username={searchResults.user_name} booking_hotelname={searchResults.hotel_name} booking_hoteladdress={searchResults.hotel_address}/>
+                 ): <p>Aun no tienes ninguna</p>
+            }
+        </div>
+        </>
     )
 }

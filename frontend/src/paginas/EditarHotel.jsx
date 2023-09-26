@@ -31,6 +31,13 @@ const notifyError = () => {
     })
 }
 
+const notifyDelete = () => {
+    toast.success("Hotel borrado!", {
+        pauseOnHover: false,
+        autoClose: 2000,
+    })
+}
+
 
 const postUser = "http://localhost:8090/hotel/update"
 
@@ -78,7 +85,10 @@ export const EditarHotel = (hotel_id) => {
          fetch(deleteHotelURL, { 
             method: 'DELETE' 
         })
-        .then(res => res.json())
+        .then(res => {
+            res.json();
+            notifyDelete();
+        })
         .then(data => console.log(data))
         .catch(error => console.error(error));
     }

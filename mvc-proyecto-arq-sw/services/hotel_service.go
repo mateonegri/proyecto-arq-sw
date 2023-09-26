@@ -84,6 +84,10 @@ func (s *hotelService) InsertHotel(hotelDto dto.HandleHotelDto) (dto.HotelDto, e
 
 	hotel = hotelClient.InsertHotel(hotel)
 
+	if hotel.Id == 0 {
+		return response, e.NewBadRequestApiError("Error al insertar hotel")
+	}
+
 	hotelDto.Id = hotel.Id
 
 	return response, nil
@@ -122,7 +126,7 @@ func (s *hotelService) UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.Hotel
 	if len(updateHotelDto.ImageURL) != 0 {
 		hotel.ImageURL = updateHotelDto.ImageURL
 	}
-	
+
 	hotel.Id = updateHotelDto.Id
 
 	var hotelDto dto.HotelDto
@@ -142,6 +146,10 @@ func (s *hotelService) UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.Hotel
 	log.Debug("Id dto", updateHotelDto.Id)
 
 	hotel = hotelClient.UpdateHotelById(hotel)
+
+	if hotel.Id == 0 {
+		return hotelDto, e.NewBadRequestApiError("Error al actualizar hotel")
+	}
 
 	hotelDto, _ = s.GetHotelById(hotel.Id)
 

@@ -106,7 +106,7 @@ export function Login() {
 
   function logout(){
     Cookie.set("user_id", -1, {path: "/"})
-    Cookie.set("user_type", false)
+    Cookie.set("user_type", false, {path:"/"})
     document.location.reload()
   }
 

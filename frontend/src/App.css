@@ -30,12 +30,12 @@ h1 {
 }
 
 .contenedor-principal {
-    min-height: 600px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 }
+
 
 /*.nav {*/
 /*    background-color: darkgray;*/
@@ -150,4 +150,15 @@ h1 {
     margin-bottom: 30px;
     margin-left: 3px;
 }
+
+.inputReservas{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.searchHotel {
+    width: 100%;
+}
+
 
