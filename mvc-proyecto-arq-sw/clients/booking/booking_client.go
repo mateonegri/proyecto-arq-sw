@@ -63,12 +63,3 @@ func GetBookingByUserId(id int) model.Booking {
 	return booking
 
 }
-
-func GetBookingsByUserId(id int) model.Bookings {
-	var bookings model.Bookings
-
-	Db.Model(&bookings).Where("user_id = ?", id)
-	log.Debug("Bookings: ", bookings)
-
-	return bookings
-}

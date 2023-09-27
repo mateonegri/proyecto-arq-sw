@@ -8,6 +8,8 @@ type HandleHotelDto struct {
 	Address          string `json:"hotel_address"`
 	ImageURL         string `json:"hotel_image_url"`
 
+	Amenities   []string    `json:"amenities"`
+
 	UserId int `json:"user_id"`
 }
 
