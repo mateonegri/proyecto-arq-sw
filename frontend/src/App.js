@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import { EditarHotel } from './paginas/EditarHotel'
 import { InsertarHotel } from './paginas/InsertarHotel'
+import { AgregarAmenitie } from './paginas/AgregarAmenitie';
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
                 <Route path='/hotel/edit/:id' element={<EditarHotel />} />
                 <Route path='/misreservas' element={<MisReservas />} />
                 <Route path='/hotel/insert' element={<InsertarHotel />} />
-              
+                <Route path='/hotel/amenitie/:id' element={<AgregarAmenitie />} />
                 <Route path='/admin/reservas' element={<ReservasAdmin />} />
                 <Route path='/misreservas' element={<MisReservas />} />
 
