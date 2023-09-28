@@ -99,14 +99,15 @@ function goto(path) {
 }
 
 export const HotelDetalle = ( hotel_id ) => {
-    const [hotel, setHotel] = useState()
-    const {id} = useParams()
+    const [hotel, setHotel] = useState();
+    const [amenities, setAmenities] = useState([]);
+    const {id} = useParams();
     const navigate = useNavigate();
 
-    const infoHotel = `http://localhost:8090/hotel/${id}`
+    const infoHotel = `http://localhost:8090/hotel/${id}` ;
 
 
-    const postBooking = "http://localhost:8090/booking"
+    const postBooking = "http://localhost:8090/booking" ;
 
     async function insertBooking(jsonData) {
 
@@ -143,12 +144,26 @@ export const HotelDetalle = ( hotel_id ) => {
     const getHotel = async () => {
         const response = await fetch(infoHotel);
         const hotel = await response.json();
-        console.log(hotel)
-        return hotel;
+        console.log(hotel);
+        setHotel(hotel);
+    }
+
+    const getAmenities = async () => {
+        try {
+          const response = await fetch(`http://localhost:8090/amenities`);
+          const data = await response.json();
+          if (data.amenities != "") {
+            setAmenities(data.amenities);
+          }
+        } catch (error) {
+            console.error('Error al obtener las amenities:', error);
+        }
     }
 
     useEffect(() => {
-        getHotel().then((hotel) => setHotel(hotel));
+        getHotel() ;
+        getAmenities() ;
+
     }, [])
 
 
@@ -156,8 +171,6 @@ export const HotelDetalle = ( hotel_id ) => {
         "start_date": "",
         "end_date": "",
     })
-
-
 
 
         const inputs = [
@@ -244,7 +257,20 @@ export const HotelDetalle = ( hotel_id ) => {
                     <Typography variant="body2" color="text.secondary">
                         <p> Esta Ubicado en: {hotel?.hotel_address}</p>
                         <p>{hotel?.hotel_description}</p>
-
+                        <h3>{hotel?.hotel_name} ofrece: </h3>
+                            {amenities?.length ? (
+                                amenities.map((amenitie) => (
+                                    <React.Fragment key={amenitie.id}>
+                                        <h2>{amenitie.name}</h2>
+                                        <p>{amenitie.description}</p>
+                                    </React.Fragment>
+                                ))   
+                            ) : (
+                                <p>
+                                    El hotel no tiene amenities
+                                </p>
+                            )
+                        }
                         <div className='reserva'>
                             <form className= 'reservaForm'  >
                                 <h1>Cuando nos quiere visitar?</h1>
