@@ -174,6 +174,10 @@ export const EditarHotel = (hotel_id) => {
         navigate(`/hotel/insert`)
     }
 
+    const handleAmenitie = () => {
+        navigate(`/hotel/amenitie/${id}`)
+    }
+
     console.log(values);
 
     return (
@@ -190,6 +194,7 @@ export const EditarHotel = (hotel_id) => {
             <div className="AdminHotelOptions">
                 <button className="DeleteButton" onClick={handleDelete}>Borrar!</button>
                 <button className="AddHotelButton" onClick={handleInsert}>Agregar Hotel!</button>
+                <button className="AddHotelButton" onClick={handleAmenitie}>Agregar Amenities!</button>
             </div>
         </div>
         <ToastContainer />

@@ -155,3 +155,48 @@ func DeleteHotel(c *gin.Context) {
 	c.JSON(http.StatusOK, responseDeleteDto)
 
 }
+
+func AddHotelAmenitie(c *gin.Context) {
+
+	hotelID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid hotel ID"})
+		return
+	}
+
+	amenitieID, err := strconv.Atoi(c.Param("id_amenitie"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid amenitie ID"})
+		return
+	}
+
+	er := service.HotelService.AddHotelAmenitie(hotelID, amenitieID)
+	if er != nil {
+		c.JSON(er.Status(), er)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Amenitie added to hotel successfully"})
+}
+
+func DeleteHotelAmenitie(c *gin.Context) {
+	hotelID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid hotel ID"})
+		return
+	}
+
+	amenitieID, err := strconv.Atoi(c.Param("id_amenitie"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid amenitie ID"})
+		return
+	}
+
+	er := service.HotelService.DeleteHotelAmenitie(hotelID, amenitieID)
+	if er != nil {
+		c.JSON(er.Status(), er)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Hotel Amenitie deleted successfully"})
+}

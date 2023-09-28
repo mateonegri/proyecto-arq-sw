@@ -7,6 +7,8 @@ type Hotel struct {
 	Rooms            int    `gorm:"not null;default:5"`
 	Address          string `gorm:"not null;type:varchar(500)"`
 	ImageURL         string `gorm:"type:varchar(600)"`
+
+	Amenities []*Amenitie `gorm:"many2many:hotels_amenities;"`
 }
 
 type Hotels []Hotel

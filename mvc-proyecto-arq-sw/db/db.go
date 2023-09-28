@@ -1,10 +1,10 @@
 package db
 
 import (
+	amenitieClient "mvc-proyecto-arq-sw/clients/amenities"
 	bookingClient "mvc-proyecto-arq-sw/clients/booking"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	userClient "mvc-proyecto-arq-sw/clients/user"
-
 	"mvc-proyecto-arq-sw/model"
 
 	"github.com/jinzhu/gorm"
@@ -39,6 +39,8 @@ func init() {
 	userClient.Db = db
 	hotelClient.Db = db
 	bookingClient.Db = db
+	amenitieClient.Db = db
+
 }
 
 func StartDbEngine() {
@@ -46,6 +48,7 @@ func StartDbEngine() {
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.Booking{})
 	db.AutoMigrate(&model.Hotel{})
+	db.AutoMigrate(&model.Amenities{})
 
 	log.Info("Finishing Migration Database Tables")
 }

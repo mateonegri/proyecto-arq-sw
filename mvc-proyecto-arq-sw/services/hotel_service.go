@@ -2,6 +2,7 @@ package services
 
 import (
 	log "github.com/sirupsen/logrus"
+	amenitieClient "mvc-proyecto-arq-sw/clients/amenities"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	userClient "mvc-proyecto-arq-sw/clients/user"
 
@@ -18,6 +19,8 @@ type hotelServiceInterface interface {
 	GetHotelById(id int) (dto.HotelDto, e.ApiError)
 	UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.HotelDto, e.ApiError)
 	DeleteHotel(idHotel int, idUser int) (dto.DeleteHotelResponseDto, e.ApiError)
+	AddHotelAmenitie(hotelId, amenitieId int) e.ApiError
+	DeleteHotelAmenitie(hotelId, amenitieId int) e.ApiError
 }
 
 var (
@@ -42,6 +45,14 @@ func (s *hotelService) GetHotelById(id int) (dto.HotelDto, e.ApiError) {
 	hotelDto.Address = hotel.Address
 	hotelDto.Rooms = hotel.Rooms
 	hotelDto.ImageURL = hotel.ImageURL
+
+	amenities := make([]string, 0)
+
+	for _, amenity := range hotel.Amenities {
+		amenities = append(amenities, amenity.Name)
+	}
+
+	hotelDto.Amenities = amenities
 
 	return hotelDto, nil
 
@@ -185,4 +196,66 @@ func (s *hotelService) DeleteHotel(idHotel int, idUser int) (dto.DeleteHotelResp
 	}
 
 	return response, nil
+}
+
+func (s *hotelService) AddHotelAmenitie(hotelId, amenitieId int) e.ApiError {
+	// Obtener el hotel por su ID
+	hotel := hotelClient.GetHotelById(hotelId)
+	if hotel.Id == 0 {
+		return e.NewNotFoundApiError("Hotel not found")
+	}
+
+	// Obtener la amenidad por su ID
+	amenitie := amenitieClient.GetAmenitieById(amenitieId)
+	if amenitie.Id == 0 {
+		return e.NewNotFoundApiError("Amenitie not found")
+	}
+
+	// Verificar si la amenidad ya está asociada al hotel
+	for _, amenity := range hotel.Amenities {
+		if amenity.Id == amenitieId {
+			return e.NewBadRequestApiError("Amenitie already added to the hotel")
+		}
+	}
+
+	// Asociar la amenidad al hotel
+	hotel.Amenities = append(hotel.Amenities, &amenitie)
+	hotelClient.UpdateHotel(hotel)
+
+	return nil
+}
+
+func (h *hotelService) DeleteHotelAmenitie(hotelId, amenitieId int) e.ApiError {
+	// Obtener el hotel por su ID
+	hotel := hotelClient.GetHotelById(hotelId)
+	if hotel.Id == 0 {
+		return e.NewNotFoundApiError("Hotel not found")
+	}
+
+	// Obtener la amenitie por su ID
+	amenitie := amenitieClient.GetAmenitieById(amenitieId)
+	if amenitie.Id == 0 {
+		return e.NewNotFoundApiError("Amenitie not found")
+	}
+
+	// Eliminar la amenidad al hotel
+	// Encuentra el índice del amenitie que deseas eliminar
+	var indexToRemove int = -1
+	for i, a := range hotel.Amenities {
+		if a.Id == amenitie.Id {
+			indexToRemove = i
+			break
+		}
+	}
+
+	// Si se encontró el amenitie, elimínalo de la lista
+	if indexToRemove != -1 {
+		hotel.Amenities = append(hotel.Amenities[:indexToRemove], hotel.Amenities[indexToRemove+1:]...)
+	}
+
+	// Actualiza el hotel en la base de datos
+	hotelClient.UpdateHotel(hotel)
+	hotelClient.DeleteHotelAmenitie(hotelId, amenitieId)
+
+	return nil
 }
