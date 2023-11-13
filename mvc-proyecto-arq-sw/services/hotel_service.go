@@ -6,6 +6,7 @@ import (
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	userClient "mvc-proyecto-arq-sw/clients/user"
 
+
 	"mvc-proyecto-arq-sw/dto"
 	"mvc-proyecto-arq-sw/model"
 	e "mvc-proyecto-arq-sw/utils/errors"
@@ -44,7 +45,7 @@ func (s *hotelService) GetHotelById(id int) (dto.HotelDto, e.ApiError) {
 	hotelDto.HotelDescription = hotel.HotelDescription
 	hotelDto.Address = hotel.Address
 	hotelDto.Rooms = hotel.Rooms
-	hotelDto.ImageURL = hotel.ImageURL
+
 
 	amenities := make([]string, 0)
 
@@ -91,7 +92,7 @@ func (s *hotelService) InsertHotel(hotelDto dto.HandleHotelDto) (dto.HotelDto, e
 	hotel.HotelDescription = hotelDto.HotelDescription
 	hotel.Address = hotelDto.Address
 	hotel.Rooms = hotelDto.Rooms
-	hotel.ImageURL = hotelDto.ImageURL
+	
 
 	hotel = hotelClient.InsertHotel(hotel)
 
@@ -115,7 +116,6 @@ func (s *hotelService) UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.Hotel
 	hotel.HotelDescription = savedHotel.HotelDescription
 	hotel.Address = savedHotel.Address
 	hotel.Rooms = savedHotel.Rooms
-	hotel.ImageURL = savedHotel.ImageURL
 
 	if len(updateHotelDto.HotelName) != 0 {
 		log.Debug("Nombre del hotel", updateHotelDto)
@@ -134,9 +134,7 @@ func (s *hotelService) UpdateHotel(updateHotelDto dto.HandleHotelDto) (dto.Hotel
 		hotel.Rooms = updateHotelDto.Rooms
 	}
 
-	if len(updateHotelDto.ImageURL) != 0 {
-		hotel.ImageURL = updateHotelDto.ImageURL
-	}
+	
 
 	hotel.Id = updateHotelDto.Id
 

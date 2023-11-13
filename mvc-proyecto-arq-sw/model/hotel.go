@@ -6,9 +6,10 @@ type Hotel struct {
 	HotelDescription string `gorm:"type:varchar(600)"`
 	Rooms            int    `gorm:"not null;default:5"`
 	Address          string `gorm:"not null;type:varchar(500)"`
-	ImageURL         string `gorm:"type:varchar(600)"`
+	
 
 	Amenities []*Amenitie `gorm:"many2many:hotels_amenities;"`
+	Images    Images      `gorm:"foreignKey:hotelId"` //relacion uno a muchos con la tabla image
 }
 
 type Hotels []Hotel

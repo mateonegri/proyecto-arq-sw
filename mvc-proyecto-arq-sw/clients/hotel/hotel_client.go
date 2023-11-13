@@ -53,7 +53,7 @@ func InsertHotel(hotel model.Hotel) model.Hotel {
 
 func UpdateHotelById(hotel model.Hotel) model.Hotel {
 
-	result := Db.Model(&hotel).Where("id = ? ", hotel.Id).Updates(map[string]interface{}{"hotel_name": hotel.HotelName, "hotel_description": hotel.HotelDescription, "rooms": hotel.Rooms, "address": hotel.Address, "image_url": hotel.ImageURL})
+	result := Db.Model(&hotel).Where("id = ? ", hotel.Id).Updates(map[string]interface{}{"hotel_name": hotel.HotelName, "hotel_description": hotel.HotelDescription, "rooms": hotel.Rooms, "address": hotel.Address})
 
 	if result.Error != nil {
 		log.Error("")

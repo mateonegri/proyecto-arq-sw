@@ -9,7 +9,7 @@ type HotelDto struct {
 	
 	
 	Amenities        []string `json:"amenities"`
- 	ImageURL         string `json:"hotel_image_url"`
+	Images      []string    `json:"images"`
 }
 
 type HotelsDto []HotelDto

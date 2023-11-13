@@ -8,6 +8,7 @@ import (
 	bookingController "mvc-proyecto-arq-sw/controllers/booking"
 	hotelController "mvc-proyecto-arq-sw/controllers/hotel"
 	userController "mvc-proyecto-arq-sw/controllers/user"
+	imageController "mvc-proyecto-arq-sw/controllers/image"
 )
 
 func mapUrls() {
@@ -26,6 +27,8 @@ func mapUrls() {
 	router.DELETE("/hotel/delete/:hotel_id/:user_id", hotelController.DeleteHotel)
 	router.PUT("/hotel/:id/add-amenitie/:id_amenitie", hotelController.AddHotelAmenitie)
 	router.DELETE("/hotel/:id/remove-amenitie/:id_amenitie", hotelController.DeleteHotelAmenitie)
+	router.POST("/hotel/:id/add-image", imageController.ImageInsert)
+
 
 	// Bookings Mapping
 	router.GET("/booking/:id", bookingController.GetBookingById)
@@ -39,6 +42,12 @@ func mapUrls() {
 	router.POST("/amenitie", amenitieController.AmenitieInsert)
 	router.GET("/amenities/hotel/:id", amenitieController.GetAmenitiesByHotelId)
 	router.DELETE("/amenitie/:id", amenitieController.DeleteAmenitieById)
+
+	// Images Mapping 
+	router.GET("/images/:id", imageController.GetImageById)
+	router.GET("/image/hotel/:id", imageController.GetImagesByHotelId)
+	router.GET("/image", imageController.GetImages)
+	router.DELETE("/imagedelete/:id", imageController.DeleteImageById)
 
 	// Login
 	router.POST("/login", userController.Login)

@@ -8,6 +8,7 @@ import (
 	"mvc-proyecto-arq-sw/dto"
 	"mvc-proyecto-arq-sw/model"
 	e "mvc-proyecto-arq-sw/utils/errors"
+	"fmt"
 )
 
 type bookingService struct{}
@@ -123,6 +124,7 @@ func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDt
 }
 
 func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError) {
+	fmt.Println("ENtro al service service ")
 	var ocuppiedRoomsDay int = 0
 
 	//startDate, _ := strconv.Atoi(request.StartDate)

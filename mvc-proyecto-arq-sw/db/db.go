@@ -5,6 +5,7 @@ import (
 	bookingClient "mvc-proyecto-arq-sw/clients/booking"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	userClient "mvc-proyecto-arq-sw/clients/user"
+	imageClient "mvc-proyecto-arq-sw/clients/image"
 	"mvc-proyecto-arq-sw/model"
 
 	"github.com/jinzhu/gorm"
@@ -19,9 +20,9 @@ var (
 
 func init() {
 	// DB Connections Paramters
-	DBName := "test_booking"
+	DBName := "tohotelproyecto"
 	DBUser := "root"
-	DBPass := "mpog1470"
+	DBPass := "Manuela10Simes"
 	//DBPass := os.Getenv("MVC_DB_PASS")
 	DBHost := "localhost"
 	// ------------------------
@@ -40,6 +41,7 @@ func init() {
 	hotelClient.Db = db
 	bookingClient.Db = db
 	amenitieClient.Db = db
+	imageClient.Db = db 
 
 }
 
@@ -49,6 +51,7 @@ func StartDbEngine() {
 	db.AutoMigrate(&model.Booking{})
 	db.AutoMigrate(&model.Hotel{})
 	db.AutoMigrate(&model.Amenities{})
+	db.AutoMigrate(&model.Image{})
 
 	log.Info("Finishing Migration Database Tables")
 }
