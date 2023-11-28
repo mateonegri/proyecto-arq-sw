@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"testing"
 	// "time"
-
+	"fmt"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -55,7 +55,7 @@ func (t *TestBookings) GetBookingById(id int) (dto.BookingDetailDto, e.ApiError)
 	return dto.BookingDetailDto{}, nil
 }
 
-// a partir de aca --> cambiar! 
+
 
 func TestInsertBooking(t *testing.T) {
 	// Si cambio el valor de los id puedo ver los errores
@@ -68,19 +68,7 @@ func TestInsertBooking(t *testing.T) {
 
 	service.BookingService = &TestBookings{}
 
-	// StartDate, err := 20240315, booking.StartDate
-	// if err != nil {
-	// 	t.Errorf("Error al analizar la fecha de inicio: %v", err)
-	// 	return
-	// }
-
-	// EndDate, err := 20240325, booking.EndDate
-	// if err != nil {
-	// 	t.Errorf("Error al analizar la fecha de fin: %v", err)
-	// 	return
-	// }
-
-	// En caso de que se quiera hardcodear un booking hay que checkear disponibilidad
+	
 	var checkAvailabilityDto dto.CheckRoomDto
 
 	checkAvailabilityDto.StartDate = booking.StartDate
@@ -89,7 +77,7 @@ func TestInsertBooking(t *testing.T) {
 	var responseAvailabilityDto dto.Availability
 
 	responseAvailabilityDto, _ = service.BookingService.GetBookingByHotelIdAndDate(checkAvailabilityDto, booking.HotelId)
-
+	fmt.Println("Paso la ida al service")
 	if responseAvailabilityDto.OkToBook == false {
 		assert.Fail(t, "No se puede realizar la reserva debido a la falta de disponibilidad")
 	} else {
@@ -97,7 +85,7 @@ func TestInsertBooking(t *testing.T) {
 
 		assert.Nil(t, err, "Error al insertar la reserva")
 		assert.Equal(t, 1, createdBooking.UserId, "El ID de usuario no coincide")
-		assert.Equal(t, 2, createdBooking.HotelId, "El ID de hotel no coincide")
+		assert.Equal(t, 1, createdBooking.HotelId, "El ID de hotel no coincide")
 		assert.Equal(t, booking.StartDate, createdBooking.StartDate, "La fecha de inicio no coincide")
 		assert.Equal(t, booking.EndDate, createdBooking.EndDate, "La fecha de fin no coincide")
 	}

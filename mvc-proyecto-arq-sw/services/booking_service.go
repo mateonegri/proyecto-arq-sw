@@ -73,7 +73,7 @@ func (s *bookingService) GetBookings() (dto.BookingsDetailDto, e.ApiError) {
 }
 
 func (s *bookingService) InsertBooking(bookingDto dto.BookingDto) (dto.BookingDto, e.ApiError) {
-
+	fmt.Printf("entro al service del insert booking")
 	var booking model.Booking
 	/*
 		booking.StartDay = bookingDto.StartDay
@@ -127,8 +127,6 @@ func (s *bookingService) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, id
 	fmt.Println("ENtro al service service ")
 	var ocuppiedRoomsDay int = 0
 
-	//startDate, _ := strconv.Atoi(request.StartDate)
-	//endDate, _ := strconv.Atoi(request.EndDate)
 
 	startDate := request.StartDate
 	endDate := request.EndDate
