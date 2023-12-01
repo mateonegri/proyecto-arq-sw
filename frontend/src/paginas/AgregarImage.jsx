@@ -82,7 +82,7 @@ export const AgregarImage = () => {
         }
 
         console.log(Cookie.get("user_id"))
-        if (Number(Cookie.get("user_id")) === 2){ 
+        if (Number(Cookie.get("user_id")) === 1){ 
         // Realizar la solicitud PUT al backend con los datos seleccionados
         const hotelId = id;
 
