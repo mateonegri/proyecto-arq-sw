@@ -75,7 +75,6 @@ export const InsertarHotel = (hotel_id) => {
         description:"",
         rooms:"",
         address:"",
-        ImageURL:"",    
     })
 
     const inputs = [
@@ -115,15 +114,6 @@ export const InsertarHotel = (hotel_id) => {
             label:"Direccion del hotel",
             required: true,
         },
-        {
-            id:5,
-            name:"ImageURL",
-            type:"text",
-            placeholder:"URL de la Imagen",
-            errorMessage: "No puede dejar este campo vacio!",
-            label:"URL de la Imagen",
-            required: true,
-        },
     ]
 
     console.log(id)
@@ -134,7 +124,6 @@ export const InsertarHotel = (hotel_id) => {
         "hotel_description": values.description,
         "hotel_rooms": Number(values.rooms),
         "hotel_address": values.address,
-        "hotel_image_url": values.ImageURL,
         "user_id": Number(Cookie.get("user_id"))
     } 
 

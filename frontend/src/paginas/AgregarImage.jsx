@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import {useParams} from "react-router-dom";
 import Cookies from "universal-cookie";
 import { MenuItem, Button, InputLabel, Select } from "@mui/material";
+import { uploadFileToIPFS } from "../pinata";
 
 const Cookie = new Cookies()
 
@@ -31,49 +32,64 @@ const notifyError = () => {
     })
 }
 
-export const AgregarAmenitie = () => {
+export const AgregarImage = () => {
 
-    const [amenities, setAmenities] = useState([]);
-    const [selectedAmenity, setSelectedAmenity] = useState("");
+    const [fileURL, setFileURL] = useState(null);
+    const [message, updateMessage] = useState('');
 
     const {id} = useParams()
 
-    const getAmenities = async () => {
-        try {
-          const response = await fetch(`http://localhost:8090/amenities`);
-          const data = await response.json();
-          if (data.amenities != "") {
-            setAmenities(data.amenities);
-          }
-        } catch (error) {
-            console.error('Error al obtener las amenities:', error);
-        }
+    async function disableButton() {
+        const listButton = document.getElementById("list-button")
+        listButton.disabled = true
+        listButton.style.backgroundColor = "grey";
+        listButton.style.opacity = 0.3;
     }
 
-    useEffect(() => {  
-        // Obtener lista de amenities
-        getAmenities();
-      }, []);
+    async function enableButton() {
+        const listButton = document.getElementById("list-button")
+        listButton.disabled = false
+        listButton.style.backgroundColor = "#A500FF";
+        listButton.style.opacity = 1;
+    }
 
-
-    const handleAmenityChange = (event) => {
-        setSelectedAmenity(event.target.value);
-    };
+     //This function uploads the NFT image to IPFS
+     async function OnChangeFile(e) {
+        var file = e.target.files[0];
+        //check for file extension
+        try {
+            //upload the file to IPFS
+            disableButton();
+            updateMessage("Subiendo imagen... no presione nada!")
+            const response = await uploadFileToIPFS(file);
+            if(response.success === true) {
+                enableButton();
+                updateMessage("")
+                console.log("Uploaded image to Pinata: ", response.pinataURL)
+                setFileURL(response.pinataURL);
+            }
+        }
+        catch(e) {
+            console.log("Error during file upload", e);
+        }
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
     
+        const jsonData = {
+            "url": fileURL
+        }
 
         console.log(Cookie.get("user_id"))
         if (Number(Cookie.get("user_id")) === 2){ 
-        console.log(Cookie.get("adentro"))
         // Realizar la solicitud PUT al backend con los datos seleccionados
         const hotelId = id;
-        const amenityId = selectedAmenity;
 
-        fetch(`http://localhost:8090/hotel/${hotelId}/add-amenitie/${amenityId}`, {
-            method: "PUT",
-            headers:{"content-type":"application/json"}
+        fetch(`http://localhost:8090/hotel/${id}/add-image`, {
+            method: "POST",
+            headers:{"content-type":"application/json"},
+            body: JSON.stringify(jsonData)
         }).then(response => {
             if (response.status === 400 || response.status === 401 || response.status === 403) {
                 console.log("Error al actualizar hotel"); 
@@ -97,32 +113,13 @@ export const AgregarAmenitie = () => {
 
     }
 
-
     return (
         <>
          <Navbar />
         <div className="Page">
-            <form className = "SignInForm" onSubmit={handleSubmit}>
-                <div>
-                <h1>Agregar Amenitie!</h1>
-                {amenities?.length ? (
-                <Select
-                    labelId="amenitie-select-label"
-                    id="amenitie-select"
-                    value={selectedAmenity}
-                    onChange={handleAmenityChange}
-                >
-                {amenities.map((amenitie) => (
-                    <MenuItem key={amenitie.id} value={amenitie.id}>
-                        {amenitie.name}
-                    </MenuItem>
-                ))}
-            </Select>
-            ) : (
-                <p>No hay amenities disponibles</p>
-            )}
-            </div>
-                <button type="submit" className="RegisterButton" onClick={handleSubmit}>Actualizar!</button>
+            <form>
+                <input type={"file"} onChange={OnChangeFile}></input>
+                <button type="submit" className="RegisterButton" id="list-button" onClick={handleSubmit}>Actualizar!</button>
             </form>
         </div>
         <ToastContainer />

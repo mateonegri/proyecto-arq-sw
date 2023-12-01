@@ -1,0 +1,20 @@
+/* custom-gallery.css */
+
+/* Adjust the positioning of the navigation arrows */
+.image-gallery-fullscreen-button {
+    top: 10px;
+  }
+  
+  .image-gallery-left-nav, .image-gallery-right-nav {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .image-gallery-left-nav {
+    left: -500px;
+  }
+  
+  .image-gallery-right-nav {
+    right: -500px;
+  }
+  

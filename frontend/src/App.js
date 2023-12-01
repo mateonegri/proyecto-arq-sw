@@ -14,6 +14,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { EditarHotel } from './paginas/EditarHotel'
 import { InsertarHotel } from './paginas/InsertarHotel'
 import { AgregarAmenitie } from './paginas/AgregarAmenitie';
+import { AgregarImage } from './paginas/AgregarImage' ;
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
                 <Route path='/hotel/insert' element={<InsertarHotel />} />
 
                 <Route path='/hotel/amenitie/:id' element={<AgregarAmenitie />} />
+                <Route path='/hotel/image/:id' element={<AgregarImage />} />
                 <Route path='/admin/reservas' element={<ReservasAdmin />} />
                 <Route path='/misreservas' element={<MisReservas />} />
 

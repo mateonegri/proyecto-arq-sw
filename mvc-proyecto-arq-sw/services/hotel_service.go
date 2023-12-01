@@ -5,6 +5,7 @@ import (
 	amenitieClient "mvc-proyecto-arq-sw/clients/amenities"
 	hotelClient "mvc-proyecto-arq-sw/clients/hotel"
 	userClient "mvc-proyecto-arq-sw/clients/user"
+	imageClient "mvc-proyecto-arq-sw/clients/image"
 
 
 	"mvc-proyecto-arq-sw/dto"
@@ -54,6 +55,14 @@ func (s *hotelService) GetHotelById(id int) (dto.HotelDto, e.ApiError) {
 	}
 
 	hotelDto.Amenities = amenities
+
+	// Mapping images
+	images := imageClient.GetImagesByHotelId(hotel.Id)
+	imagesHotel := make([]string, 0)
+	for _, image := range images {
+		imagesHotel = append(imagesHotel, image.Url) // Assuming there's a URL field in your Image model
+	}
+	hotelDto.Images = imagesHotel
 
 	return hotelDto, nil
 

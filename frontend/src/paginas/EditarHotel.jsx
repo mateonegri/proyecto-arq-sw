@@ -97,8 +97,7 @@ export const EditarHotel = (hotel_id) => {
         name:"",
         description:"",
         rooms:"",
-        address:"",
-        ImageURL:"",    
+        address:"",  
     })
 
     const inputs = [
@@ -130,13 +129,6 @@ export const EditarHotel = (hotel_id) => {
             placeholder:"Direccion del hotel",
             label:"Direccion del hotel",
         },
-        {
-            id:5,
-            name:"ImageURL",
-            type:"text",
-            placeholder:"URL de la Imagen",
-            label:"URL de la Imagen",
-        },
     ]
 
     console.log(id)
@@ -147,7 +139,6 @@ export const EditarHotel = (hotel_id) => {
         "hotel_description": values.description,
         "hotel_rooms": Number(values.rooms),
         "hotel_address": values.address,
-        "hotel_image_url": values.ImageURL,
         "user_id": Number(Cookie.get("user_id"))
     } 
 
@@ -177,6 +168,10 @@ export const EditarHotel = (hotel_id) => {
     const handleAmenitie = () => {
         navigate(`/hotel/amenitie/${id}`)
     }
+    
+    const handleImage = () => {
+        navigate(`/hotel/image/${id}`)
+    }
 
     console.log(values);
 
@@ -195,6 +190,7 @@ export const EditarHotel = (hotel_id) => {
                 <button className="DeleteButton" onClick={handleDelete}>Borrar!</button>
                 <button className="AddHotelButton" onClick={handleInsert}>Agregar Hotel!</button>
                 <button className="AddHotelButton" onClick={handleAmenitie}>Agregar Amenities!</button>
+                <button className="AddHotelButton" onClick={handleImage}>Agregar Imagenes!</button>
             </div>
         </div>
         <ToastContainer />

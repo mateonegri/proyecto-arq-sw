@@ -7,6 +7,7 @@ const Cookie = new Cookies();
 
 const hotels = "http://localhost:8090/hotel"
 
+
 const Hotel = () => {
 
 const [hotel, setHotel] = useState([]);
@@ -28,7 +29,7 @@ return (
     <div className='contenedor-principal'>
             <h1>Tus vacaciones estan esperandote...</h1>
             {
-                hotel?.length ? hotel.map((hotel) => <HotelCard key={hotel.id} hotel_name={hotel.hotel_name} hotel_address={hotel.hotel_address} hotel_description={hotel.hotel_description} hotel_id={hotel.id} hotel_image={hotel.hotel_image_url}/>): <p>No hay hoteles</p>
+                hotel?.length ? hotel.map((hotel) => <HotelCard key={hotel.id} hotel_name={hotel.hotel_name} hotel_address={hotel.hotel_address} hotel_description={hotel.hotel_description} hotel_id={hotel.id} hotel_image={hotel.images[0]}/>): <p>No hay hoteles</p>
             }
     </div>
 )

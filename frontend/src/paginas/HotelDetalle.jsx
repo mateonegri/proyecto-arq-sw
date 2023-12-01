@@ -15,6 +15,9 @@ import { CardContent, CardMedia } from '@mui/material';
  //import CardMedia from '@mui/material/CardMedia';
  //import Button from '@mui/material/Button';
  import Typography from '@mui/material/Typography';
+ import ImageGallery from "react-image-gallery";
+ import 'react-image-gallery/styles/css/image-gallery.css'; 
+ import '../hojas-de-estilo/custom-gallery.css'; // Import your custom styles
 
 const Cookie = new Cookies();
 
@@ -149,7 +152,7 @@ export const HotelDetalle = ( hotel_id ) => {
 
     const getAmenities = async () => {
         try {
-          const response = await fetch(`http://localhost:8090/amenities`);
+          const response = await fetch(`http://localhost:8090/amenities/hotel/${id}`);
           const data = await response.json();
           if (data.amenities != "") {
             setAmenities(data.amenities);
@@ -248,12 +251,20 @@ export const HotelDetalle = ( hotel_id ) => {
 
             <Navbar />
             <Card sx={{width:'92%'}} className="hotelDetalle">
-                <CardMedia
+              {/*  <CardMedia
                     component="img"
-                    alt={hotel?.hotel_name}
                     height="560"
-                    image = {hotel?.hotel_image_url}
-                />
+                    image = {hotel?.images}
+                    alt = {hotel?.name}
+                />  */}
+                  <ImageGallery
+                    items={hotel?.images?.map(image => ({
+                    original: image,
+                    thumbnail: image,
+                    })) || []}
+                    showPlayButton={false} // Optional: hides the play button
+                    showFullscreenButton={false} // Optional: hides the fullscreen button
+                    />
 
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">

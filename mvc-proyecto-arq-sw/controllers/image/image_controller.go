@@ -46,15 +46,23 @@ func ImageInsert(c *gin.Context) {
 		return
 	}
 
-	// Obtener los datos de la imagen del cuerpo de la solicitud
-	imageFile, err := c.FormFile("image")
+	/* imageFile, err := c.FormFile("image")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	} */
+
+	var insertImageDto dto.InsertImageDto
+	err := c.BindJSON(&insertImageDto)
+
+	if err != nil {
+		log.Error(err.Error())
+		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
 	// Guardar la imagen y manejar la lógica de relación con el hotel
-	imageDto, er := service.ImageService.ImageInsert(hotelID, imageFile)
+	imageDto, er := service.ImageService.ImageInsert(hotelID, insertImageDto.Url)
 	if er != nil {
 		c.JSON(er.Status(), er)
 		return

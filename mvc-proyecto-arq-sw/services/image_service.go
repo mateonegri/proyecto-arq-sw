@@ -1,11 +1,11 @@
 package services
 
 import (
-	"github.com/google/uuid"
+	// "github.com/google/uuid"
 	"io"
 	"mime/multipart"
 	"os"
-	"path/filepath"
+	// "path/filepath"
 
 	imageDAO "mvc-proyecto-arq-sw/clients/image"
 	"mvc-proyecto-arq-sw/dto"
@@ -19,7 +19,8 @@ type imageService struct{}
 type imageServiceInterface interface {
 	GetImageById(id int) (dto.ImageDto, e.ApiError)
 	GetImages() (dto.ImagesDto, e.ApiError)
-	ImageInsert(hotelID int, imageFile *multipart.FileHeader) (dto.ImageDto, e.ApiError)
+	// ImageInsert(hotelID int, imageFile *multipart.FileHeader) (dto.ImageDto, e.ApiError)
+	ImageInsert(hotelID int, URL string) (dto.ImageDto, e.ApiError)
 	GetImagesByHotelId(hotelID int) (dto.ImagesDto, e.ApiError)
 	DeleteImageById(id int) e.ApiError
 }
@@ -65,7 +66,7 @@ func (i *imageService) GetImages() (dto.ImagesDto, e.ApiError) {
 	}, nil
 }
 
-func (i *imageService) ImageInsert(hotelID int, imageFile *multipart.FileHeader) (dto.ImageDto, e.ApiError) {
+/* func (i *imageService) ImageInsert(hotelID int, imageFile *multipart.FileHeader) (dto.ImageDto, e.ApiError) {
 	// Crear imageDto para el retorno
 	var imageDto dto.ImageDto
 
@@ -101,6 +102,29 @@ func (i *imageService) ImageInsert(hotelID int, imageFile *multipart.FileHeader)
 	imageDto.HotelId = image.HotelId
 
 	return imageDto, nil
+} */
+
+func (i *imageService) ImageInsert(hotelID int, URL string) (dto.ImageDto, e.ApiError) {
+
+	var imageDto dto.ImageDto
+	var image model.Image
+
+	image.HotelId = hotelID
+	image.Url = URL
+
+
+	image = imageDAO.ImageInsert(image)
+
+	if image.Id == 0 {
+		return imageDto, e.NewBadRequestApiError("Error al insertar imagen")
+	}
+
+	imageDto.HotelId = image.HotelId
+	imageDto.Id = image.Id
+	imageDto.Url = image.Url
+
+	return imageDto, nil
+
 }
 
 func saveFile(imageFile *multipart.FileHeader, filePath string) error {
