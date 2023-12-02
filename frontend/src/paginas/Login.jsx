@@ -106,9 +106,10 @@ export function Login() {
 
   function logout(){
     Cookie.set("user_id", -1, {path: "/"})
-    Cookie.set("user_type", false, {path:"/"})
+    Cookie.set("user_type", false, {path:"/"})  
     document.location.reload()
   }
+  const isUserLoggedIn = Cookie.get("user_id") > -1; // Verifica si el usuario está autenticado
 
   return (
     <> 
@@ -118,9 +119,11 @@ export function Login() {
           <h1>Bienvenido!</h1>
           {isSubmitted || Cookie.get("user_id") > -1 ? Cookie.get("username") : renderForm}
         </div>
+        {isUserLoggedIn && (
         <div className="logout-button">
           <button  onClick={logout}>Log Out</button>
         </div>
+        )}
     </div>
     <ToastContainer />
     </>
