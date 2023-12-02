@@ -48,7 +48,12 @@ func (t *TestBookings) GetBookingsByUserId(id int) (dto.BookingsDetailDto, e.Api
 
 
 func (t *TestBookings) GetBookingByHotelIdAndDate(request dto.CheckRoomDto, idHotel int) (dto.Availability, e.ApiError) {
-	return dto.Availability{}, nil
+	if idHotel == 1 {
+	return dto.Availability{
+		OkToBook : true, 
+	}, nil
+	} 
+	return dto.Availability{}, nil 
 }
 
 func (t *TestBookings) GetBookingById(id int) (dto.BookingDetailDto, e.ApiError) {
@@ -77,7 +82,7 @@ func TestInsertBooking(t *testing.T) {
 	var responseAvailabilityDto dto.Availability
 
 	responseAvailabilityDto, _ = service.BookingService.GetBookingByHotelIdAndDate(checkAvailabilityDto, booking.HotelId)
-	fmt.Println("Paso la ida al service")
+	fmt.Println("Paso la ida al service") // si saco este renglon no se pq no anda 
 	if responseAvailabilityDto.OkToBook == false {
 		assert.Fail(t, "No se puede realizar la reserva debido a la falta de disponibilidad")
 	} else {
