@@ -65,7 +65,7 @@ export const AgregarAmenitie = () => {
     
 
         console.log(Cookie.get("user_id"))
-        if (Number(Cookie.get("user_id")) === 1){ 
+        if (Cookie.get("user_type") === "true"){ 
         console.log(Cookie.get("adentro"))
         // Realizar la solicitud PUT al backend con los datos seleccionados
         const hotelId = id;

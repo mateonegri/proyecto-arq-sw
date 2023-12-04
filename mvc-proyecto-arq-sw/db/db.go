@@ -20,7 +20,7 @@ var (
 
 func init() {
 	// DB Connections Paramters
-	DBName := "tohotelproyecto"
+	DBName := "proyectoarqsw1"
 	DBUser := "root"
 	DBPass := ""
 	//DBPass := os.Getenv("MVC_DB_PASS")

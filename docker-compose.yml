@@ -8,7 +8,7 @@ services:
     image: mysql
     restart: always
     environment:
-      MYSQL_DATABASE: tuhotelproyecto
+      MYSQL_DATABASE: proyectoarqsw1
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_ROOT_HOST: '%' 
     ports:
@@ -19,14 +19,6 @@ services:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root" ]
       timeout: 20s
       retries: 10
-    
-  frontend:
-    build: ./frontend
-    depends_on:
-      mysql:
-        condition: service_healthy
-    ports:
-      - "3000:3000"
 
   backend:
     build: ./mvc-proyecto-arq-sw
@@ -36,5 +28,13 @@ services:
     ports:
       - "8090:8090"
     command: sh -c "sleep 60"
+  
+  frontend:
+    build: ./frontend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
     networks:
       - front
